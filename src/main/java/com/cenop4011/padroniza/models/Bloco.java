@@ -42,7 +42,7 @@ public class Bloco implements Serializable{
 	@JoinColumn(name="checklist_id", referencedColumnName = "id")
 	private Checklist checklist;
 	
-	@JsonIgnore
+	
 	@OneToMany( mappedBy = "bloco" ,cascade = CascadeType.ALL,orphanRemoval = true, fetch = FetchType.EAGER)
 	private List<Pergunta> perguntas = new ArrayList<>();
 	
