@@ -21,14 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
-import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.PerguntaService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
+@Api(tags = "Perguntas",description = " ")
 @RequestMapping("/perguntas")
 @CrossOrigin("*")
 public class PerguntaController {

@@ -18,14 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.cenop4011.padroniza.dtos.BlocoDTO;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.services.BlocoService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
 
-
+@Api(tags = "Blocos",description = " ")
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/blocos")
@@ -42,7 +44,7 @@ public class BlocoController {
         @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
 })
 	
-	public ResponseEntity<Bloco> salvarBloco(@RequestParam(value="checklist", defaultValue = "0")  Integer idCheclist ,  @RequestBody @Validated Bloco bloco){
+	public ResponseEntity<BlocoDTO> salvarBloco(@RequestParam(value="checklist", defaultValue = "0")  Integer idCheclist ,  @RequestBody @Validated BlocoDTO bloco){
 		
 		System.out.println("id do checklist "+   idCheclist); // utilizar este id para vincular o bloco ao checklist
 		

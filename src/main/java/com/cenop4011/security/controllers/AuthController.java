@@ -31,8 +31,10 @@ import com.cenop4011.security.models.User;
 import com.cenop4011.security.services.RoleService;
 import com.cenop4011.security.services.UserService;
 
+import io.swagger.annotations.Api;
 
 
+@Api(tags = "auth",description = " ")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
