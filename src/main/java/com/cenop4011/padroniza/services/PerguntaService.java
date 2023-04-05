@@ -1,5 +1,7 @@
 package com.cenop4011.padroniza.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +25,24 @@ public class PerguntaService {
 	
 	
 	public Pergunta gravarPergunta(PerguntaDTO perguntaDTO, Integer idBloco) {
+		Bloco  bloco = null;
 		
-		Bloco  bloco = blocoService.buscarBlocoPorId(idBloco);
 		
-		Pergunta pergunta = new Pergunta();
-		pergunta.setId(null);
-		pergunta.setDescricao(perguntaDTO.getDescricao());
-		pergunta.setAjuda(perguntaDTO.getAjuda());
-		pergunta.setInstrucaoIn(perguntaDTO.getInstrucaoIn());
-		pergunta.setTipo(perguntaDTO.getTipo());
-		pergunta.setBloco(bloco);
+		
+		
+		
+		Pergunta pergunta = new Pergunta(perguntaDTO);
+		
+		
+		if(idBloco>0) {
+			  bloco = blocoService.buscarBlocoPorId(idBloco);
+			  pergunta.adicionarBlocos(bloco);
+		}
+		
 		
 		try {
 			perguntaRepository.save(pergunta);
+			blocoService.atualizaBloco(bloco);
 		} catch (Exception e) {
 			System.out.println(e.getCause().getMessage());
 			throw e;
@@ -43,6 +50,12 @@ public class PerguntaService {
 		
 		return pergunta;
 		
+	}
+
+
+
+	public List<Pergunta> buscarTodas() {
+		return perguntaRepository.findAll();
 	}
 	
 	

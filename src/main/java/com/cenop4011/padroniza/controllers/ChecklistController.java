@@ -1,8 +1,7 @@
 package com.cenop4011.padroniza.controllers;
 
 import java.net.URI;
-
-import javax.websocket.server.PathParam;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,41 +16,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.cenop4011.padroniza.dtos.BlocoDTO;
-import com.cenop4011.padroniza.models.Bloco;
-import com.cenop4011.padroniza.services.BlocoService;
+import com.cenop4011.padroniza.dtos.ChecklistDTO;
+import com.cenop4011.padroniza.models.Checklist;
+import com.cenop4011.padroniza.services.ChecklistService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
-
-@Api(tags = "Blocos",description = " ")
+@Api(tags = "Checklists",description = " ")
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/blocos")
-public class BlocoController {
+@RequestMapping("/checklists")
+
+public class ChecklistController {
 	
 	@Autowired
-	BlocoService blocoService;
-	
-	
-	
+	ChecklistService checklistService;
+		
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
 })
 	
-	public ResponseEntity<BlocoDTO> salvarBloco(@RequestParam(value="checklist", defaultValue = "0")  Integer idCheclist ,  @RequestBody @Validated BlocoDTO bloco){
+	public ResponseEntity<ChecklistDTO> salvarChecklist(@RequestParam(value="codigolinha", defaultValue = "0")  Integer codigoLinha ,  @RequestBody @Validated ChecklistDTO checklistDTO){
 		
-		System.out.println("id do checklist "+   idCheclist); // utilizar este id para vincular o bloco ao checklist
+		System.out.println("codigo da linha "+   codigoLinha); // utilizar este id para vincular o bloco ao checklist
 		
-		Bloco blocoSalvo = (Bloco) blocoService.salvarBloco(bloco,idCheclist);
+		Checklist checklist = checklistService.gravarChecklist(checklistDTO, codigoLinha);
 		URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(blocoSalvo.getId())
+                .buildAndExpand(checklist.getId())
                 .toUri();
 
        return ResponseEntity.created(location).build();
@@ -63,16 +59,17 @@ public class BlocoController {
 		
 	}
 	
-	@GetMapping("{idBloco}")
-	public ResponseEntity<Bloco> buscarBloco(@PathVariable Integer idBloco ){
+	@GetMapping
+	public ResponseEntity<List<Checklist>> buscarTodos(){
 		
-		Bloco bloco = blocoService.buscarBlocoPorId(idBloco);
+		List<Checklist> checklists = checklistService.buscarTodos();
 		
-		return ResponseEntity.ok().body(bloco);
+		return ResponseEntity.ok().body(checklists);
 		
 	}
 	
 	
 	
+		
 
 }

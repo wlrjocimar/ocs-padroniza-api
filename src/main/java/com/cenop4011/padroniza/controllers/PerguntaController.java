@@ -1,6 +1,8 @@
 package com.cenop4011.padroniza.controllers;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.cenop4011.padroniza.dtos.LinhaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.PerguntaService;
@@ -40,12 +43,8 @@ public class PerguntaController {
 	
 	
 	
-	@GetMapping
-	 @ApiImplicitParams({
-         @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
- })
-	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-	public ResponseEntity<?> teste(HttpServletRequest req){
+	@GetMapping("/teste")
+	 public ResponseEntity<?> teste(HttpServletRequest req){
 		Cookie[] cookies = req.getCookies();
 		String BBSSOToken = "";
 
@@ -98,6 +97,16 @@ public class PerguntaController {
 		
 	}
 	
+	
+	
+	@GetMapping
+	public ResponseEntity<List<PerguntaDTO>> buscarTodasPerguntas(){
+		
+			List<Pergunta> perguntas = perguntaService.buscarTodas();
+            List<PerguntaDTO> perguntasDTO = perguntas.stream().map(pergunta -> new PerguntaDTO(pergunta)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(perguntasDTO);
+		
+	}
 	
 	
 	
