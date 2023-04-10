@@ -51,7 +51,7 @@ public class DbPadronizaConfig {
 	
 	
 	@Bean(name="padronizaTransactionManager")
-	public PlatformTransactionManager transactionManagerCalculo(@Qualifier("padronizaEntityManager") EntityManagerFactory entityManagerFactory ) {
+	public PlatformTransactionManager transactionManagerPadroniza(@Qualifier("padronizaEntityManager") EntityManagerFactory entityManagerFactory ) {
 		
 		
 		

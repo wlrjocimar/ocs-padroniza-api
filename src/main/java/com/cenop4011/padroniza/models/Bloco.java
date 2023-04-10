@@ -2,7 +2,9 @@ package com.cenop4011.padroniza.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,23 +41,27 @@ public class Bloco implements Serializable{
 	@Column(name="nome_bloco")
 	private String nomeBloco;
 	
+//	@JsonIgnore
+//	@ManyToOne
+//	@JoinColumn(name="checklist_id", referencedColumnName = "id")
+//	private Checklist checklist;
+//	
+	
+	
+	
+	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="checklist_id", referencedColumnName = "id")
-	private Checklist checklist;
-	
-	
-	
-	
-	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany
     @JoinTable(
         name = "tb_bloco_pergunta",
-        joinColumns = @JoinColumn(name = "bloco_id"),
-        inverseJoinColumns = @JoinColumn(name = "pergunta_id")
-    )
+        joinColumns = @JoinColumn(name = "bloco_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "pergunta_id", referencedColumnName = "id"))
+   private List<Pergunta> perguntas = new ArrayList<>();
+
+
+
+
 	
-	private List<Pergunta> perguntas = new ArrayList<>();
 	
 	
 	

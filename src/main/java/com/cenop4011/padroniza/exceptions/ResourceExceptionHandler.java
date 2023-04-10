@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 
 
+
+
 @ControllerAdvice
 public class ResourceExceptionHandler {
     
@@ -19,6 +21,16 @@ public class ResourceExceptionHandler {
    
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
     }
+    
+    @ExceptionHandler(ViolacaoIntegridadeException.class)
+    public ResponseEntity<StandardError> integridadeViolada(ViolacaoIntegridadeException e,ServletRequest request){
+        StandardError standardError = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), e.getMessage());
+   
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+    }
+    
+
+    
     
     
     

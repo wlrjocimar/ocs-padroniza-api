@@ -40,8 +40,8 @@ public class Checklist implements Serializable {
 	private String nomePersonaliado; //exemplo; checklist do mario
 	
 	
-	@OneToMany(mappedBy = "checklist", cascade = CascadeType.ALL, orphanRemoval =true , fetch = FetchType.EAGER)
-	private List<Bloco> blocos = new ArrayList<Bloco>();
+//	@OneToMany(mappedBy = "checklist", cascade = CascadeType.ALL, orphanRemoval =true , fetch = FetchType.EAGER)
+//	private List<Bloco> blocos = new ArrayList<Bloco>();
 	
 	//@JsonIgnore
 	@ManyToOne

@@ -3,6 +3,8 @@ package com.cenop4011.padroniza.dtos;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,9 +31,14 @@ public class PerguntaDTO implements Serializable{
 	private String observacao;
 	private Integer tempoAlerta;
 	private Integer instrucaoIn;
+	private String link;
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private TipoPerguntaList tipo;
+	private TipoPerguntaList tipoResposta;
+	
+	
+	private List<Integer> listaCodigosLinha = new ArrayList<>();
+	
 	
 	
 	public PerguntaDTO(Pergunta pergunta) {
@@ -43,7 +50,8 @@ public class PerguntaDTO implements Serializable{
 		this.observacao = pergunta.getObservacao();
 		this.tempoAlerta = pergunta.getTempoAlerta();
 		this.instrucaoIn = pergunta.getInstrucaoIn();
-		this.tipo = pergunta.getTipo();
+		this.tipoResposta = pergunta.getTipoResposta();
+		this.link = pergunta.getLink();
 	}
 
 

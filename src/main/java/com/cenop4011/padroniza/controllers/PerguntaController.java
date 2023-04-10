@@ -9,13 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,7 +88,7 @@ public class PerguntaController {
 
 		Pergunta pergunta = perguntaService.gravarPergunta(perguntaDTO, idBloco);
 		URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
+                .fromCurrentRequestUri()
                 .path("/{id}")
                 .buildAndExpand(pergunta.getId())
                 .toUri();
@@ -94,6 +97,35 @@ public class PerguntaController {
 		
 		
 		
+		
+	}
+	
+	
+	
+	@GetMapping("/{idPergunta}")
+	public ResponseEntity<Pergunta> buscarPergunta(@PathVariable Integer idPergunta){
+		
+			Pergunta pergunta = perguntaService.buscarPergunta(idPergunta);
+			return ResponseEntity.ok().body(pergunta);
+	}
+	
+	
+	
+	@PutMapping("/{idPergunta}")
+	
+	
+	 @ApiImplicitParams({
+       @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+})
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+	
+	public ResponseEntity<Pergunta> atualizarPergunta(@PathVariable Integer idPergunta, @RequestBody @Valid PerguntaDTO perguntaDTO){
+		
+		
+		Pergunta pergunta = perguntaService.atualizarPergunta(idPergunta, perguntaDTO);
+		
+		
+		return ResponseEntity.ok().body(pergunta);
 		
 	}
 	
@@ -108,6 +140,26 @@ public class PerguntaController {
 		
 	}
 	
+	
+
+	@DeleteMapping("/{idPergunta}")
+	 @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+})
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public ResponseEntity<?> removerPergunta(@PathVariable Integer idPergunta,@RequestParam(value="bloco", defaultValue = "0")  Integer idBloco){
+		
+		
+		
+			perguntaService.removerPergunta(idPergunta,idBloco);
+
+			 return ResponseEntity.noContent().build();
+       
+		
+		
+		
+		
+	}
 	
 	
 

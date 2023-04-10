@@ -2,8 +2,11 @@ package com.cenop4011.padroniza.services;
 
 import java.util.Optional;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.BlocoDTO;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
@@ -32,7 +35,7 @@ public class BlocoService {
 
 		if(idChecklist>0) {
 			 checklist = checklistService.buscarPorId(idChecklist);
-			 bloco.setChecklist(checklist);
+			// bloco.setChecklist(checklist);
 		}
 		
 		bloco.setId(null);
@@ -51,8 +54,11 @@ public class BlocoService {
 		
 	}
 
+	
+	
 	public Bloco atualizaBloco(Bloco bloco) {
 		
+			
 		
 			try {
 				bloco = blocoRepository.save(bloco);
