@@ -14,18 +14,16 @@ import lombok.Data;
 public class NewUser {
 	
 	@NotBlank
-	
 	private String userName;
 	
-	@Email
-	private String email;
+	
 	@NotNull
 	private  String password;
 	
 	private Set<String> roles = new HashSet<>();
     public NewUser() {
     }
-    public NewUser(@NotBlank String userName, @Email String email, @NotBlank String password,
+    public NewUser(@NotBlank String userName, @NotBlank String password,
             Set<String> roles) {
 
         this.userName = userName;

@@ -1,13 +1,18 @@
 package com.cenop4011.padroniza.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 
@@ -26,8 +31,13 @@ public class Linha implements Serializable {
 	private Integer id;
 	@Column(name="nome_linha")
 	private String nomeLinha;
-	@Column(name = "codigo_linha")
+	@Column(name = "codigo_linha", unique = true)
 	private Integer codigoLinha;
+	
+	
+	
+	@OneToMany(mappedBy = "linha")
+	private List<Checklist> checkLists = new ArrayList<>();
 	
 
 }

@@ -5,10 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.ChecklistDTO;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
+import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Checklist;
 import com.cenop4011.padroniza.models.Linha;
 import com.cenop4011.padroniza.repositories.ChecklistRepository;
@@ -20,20 +21,30 @@ public class ChecklistService {
 	@Autowired
 	ChecklistRepository checklistRepository;
 	
+	
 	@Autowired
 	LinhaService linhaService;
 	
-	
+	@Transactional("padronizaTransactionManager")
 	public Checklist gravarChecklist(ChecklistDTO checklistDTO, Integer codigoLinha) {
 		
-		Linha linha = linhaService.buscarLinha(codigoLinha);
+		Linha linha ;
 		
 		Checklist checklist = new Checklist(checklistDTO);
 		
-		checklist.setLinha(linha);
 		
 		
-		checklistRepository.save(checklist);
+		if(codigoLinha>0) {
+			linha = linhaService.buscarLinha(codigoLinha);
+			checklist.setLinha(linha);
+			checklistRepository.save(checklist);
+			
+		}else {
+			checklistRepository.save(checklist);
+		}
+		
+		
+		
 		return checklist;
 		
 	}
@@ -46,10 +57,50 @@ public class ChecklistService {
 	}
 
 
+	@Transactional("padronizaTransactionManager")
 	public Checklist buscarPorId(Integer idChecklist) {
-		Optional<Checklist> checklist = checklistRepository.findById(idChecklist);
 		
-		return checklist.orElseThrow(()->new ObjectNotFoundException("CheckList não localizado"));
+		
+
+		 Checklist checklist = checklistRepository.findById(idChecklist)
+		            .orElseThrow(() -> new ObjectNotFoundException("Checklist não encontrado para o id: " + idChecklist));
+		    
+		 checklist.getBlocos().size(); // Isso carrega as perguntas (sem carga preguiçosa)
+		 
+		 for (Bloco bloco :  checklist.getBlocos()) {
+			bloco.getPerguntas().size();
+			
+		}
+		 
+		    return checklist;
+		
+		
+		
+	}
+
+
+	@Transactional("padronizaTransactionManager")
+	public Checklist vincularLinha(Integer idCheckList, Integer idLinha) {
+		Checklist checklist = buscarPorId(idCheckList);
+		
+		Linha linha = linhaService.buscarLinha(idLinha);
+		
+		checklist.setLinha(linha);
+		
+		checklist = checklistRepository.save(checklist);
+		
+		linha = linhaService.atualizaLinha(linha);
+		
+		return checklist;
+	}
+
+	
+	
+	
+
+	@Transactional("padronizaTransactionManager")
+	public Checklist atualizaChecklist(Checklist checklist) {
+		return checklistRepository.save(checklist);
 	}
 	
 

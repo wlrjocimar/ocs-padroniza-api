@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -19,21 +22,31 @@ import lombok.Data;
 public class Resposta implements Serializable {
 	
 	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name = "codigo_pergunta")
-	private Integer codigoPergunta;
-	@Column(name = "resposta")
-	private String valorResposta;
-	@Column(name="texto_orig_pergunta")
-	private String textoOriginalPergunta;
+	
+	@Column
+	private String resposta;
 	
 	
-	
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name="estudo_id", referencedColumnName = "id")
-    private Estudo estudo;
+	private Pergunta pergunta;
+	
+	public Resposta() {
+		
+	}
+
+	public Resposta(RespostaDTO respostaDTO) {
+		this.resposta=respostaDTO.getResposta();
+		
+	}
+
+	
+
 	
 
 }

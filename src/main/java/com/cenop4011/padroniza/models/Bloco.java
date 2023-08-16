@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.cenop4011.padroniza.dtos.BlocoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -31,6 +32,10 @@ import lombok.Data;
 @Table(name = "tb_bloco")
 public class Bloco implements Serializable{
 	
+
+
+
+
 	/**
 	 * 
 	 */
@@ -41,17 +46,54 @@ public class Bloco implements Serializable{
 	@Column(name="nome_bloco")
 	private String nomeBloco;
 	
-//	@JsonIgnore
-//	@ManyToOne
-//	@JoinColumn(name="checklist_id", referencedColumnName = "id")
-//	private Checklist checklist;
-//	
 	
 	
 	
 	
+	public Bloco(BlocoDTO blocoDTO) {
+		super();
+		
+		this.nomeBloco = blocoDTO.getNomeBloco();
+		
+	}
+	
+	
+
+	
+	
+	public Bloco() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(mappedBy = "blocos", cascade = CascadeType.ALL)
+    private List<Checklist> checklists = new ArrayList<>();
+	
+	
+	
+	//@JsonIgnore
+	@ManyToMany()
     @JoinTable(
         name = "tb_bloco_pergunta",
         joinColumns = @JoinColumn(name = "bloco_id", referencedColumnName = "id"),
@@ -60,6 +102,8 @@ public class Bloco implements Serializable{
 
 
 
+	
+	
 
 	
 	

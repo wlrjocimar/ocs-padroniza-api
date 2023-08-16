@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.ChecklistDTO;
 import com.cenop4011.padroniza.models.Checklist;
+import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.ChecklistService;
 
 import io.swagger.annotations.Api;
@@ -68,6 +70,31 @@ public class ChecklistController {
 		
 	}
 	
+	
+	
+	@PostMapping("/vincularlinha/{idCheckList}/{idLinha}")
+	 @ApiImplicitParams({
+	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+	})
+		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public ResponseEntity<?> vincularLinha(@PathVariable Integer idCheckList, @PathVariable Integer idLinha){
+		
+		Checklist checklist = checklistService.vincularLinha(idCheckList,idLinha);
+		
+		
+		return ResponseEntity.ok().body(checklist);
+		
+	}
+	
+	
+	@GetMapping("/{idChecklist}")
+	public ResponseEntity<Checklist> buscarPorid(@PathVariable Integer idChecklist){
+		
+		Checklist checklist = checklistService.buscarPorId(idChecklist);
+		
+		return ResponseEntity.ok().body(checklist);
+		
+	}
 	
 	
 		

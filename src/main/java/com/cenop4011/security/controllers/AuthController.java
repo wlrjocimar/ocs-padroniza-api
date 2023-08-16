@@ -32,6 +32,8 @@ import com.cenop4011.security.services.RoleService;
 import com.cenop4011.security.services.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 
 
 @Api(tags = "auth",description = " ")
@@ -68,8 +70,11 @@ public class AuthController {
         }
     }
     
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    
+    
     @PostMapping("/novousuario")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
     public ResponseEntity<Object> gravaNovoUsuario(@Valid @RequestBody NewUser newUser, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return new ResponseEntity<>(new Message("Revise os campos e tente novamente!!"), HttpStatus.BAD_REQUEST);

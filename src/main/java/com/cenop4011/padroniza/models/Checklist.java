@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -43,7 +45,18 @@ public class Checklist implements Serializable {
 //	@OneToMany(mappedBy = "checklist", cascade = CascadeType.ALL, orphanRemoval =true , fetch = FetchType.EAGER)
 //	private List<Bloco> blocos = new ArrayList<Bloco>();
 	
+	
+	
 	//@JsonIgnore
+	@ManyToMany
+    @JoinTable(
+        name = "tb_checklist_bloco",
+        joinColumns = @JoinColumn(name = "checklist_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "bloco_id", referencedColumnName = "id"))
+	private List<Bloco> blocos = new ArrayList<Bloco>();
+	
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name ="linha_id", referencedColumnName = "id" )
 	private Linha linha;

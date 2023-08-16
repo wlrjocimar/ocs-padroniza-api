@@ -24,7 +24,11 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -86,9 +90,14 @@ public class Pergunta implements Serializable {
 		this.instrucaoIn = perguntaDTO.getInstrucaoIn();
 		this.tipoResposta = perguntaDTO.getTipoResposta();
 		this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
+		this.respostas= adicionarRespostas(perguntaDTO);
 		
 		
 	}
+
+	
+
+
 
 	private List<CodigoLinha> adicionarCodigosLinha(PerguntaDTO perguntaDTO) {
 		
@@ -105,11 +114,27 @@ public class Pergunta implements Serializable {
 		
 		return this.listaCodigosLinha;
 	}
+	
+	
+	private List<Resposta> adicionarRespostas(PerguntaDTO perguntaDTO) {
+		this.setRespostas(new ArrayList<>());
+		
+		for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
+			
+			Resposta resposta = new Resposta(respostaDTO);
+			resposta.setPergunta(this);
+			
+			this.respostas.add(resposta);
+			
+		}
+		return respostas;
+	}
+	
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name="tipo_resposta")
-	private TipoPerguntaList tipoResposta;;
+	private TipoPerguntaList tipoResposta;
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "perguntas", cascade = CascadeType.ALL)
@@ -118,6 +143,12 @@ public class Pergunta implements Serializable {
 	//@JsonIgnore
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<CodigoLinha> listaCodigosLinha = new ArrayList<>();
+	
+	
+	//@JsonIgnore
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
+	private List<Resposta> respostas = new ArrayList<>();
 
 
 

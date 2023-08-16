@@ -172,6 +172,26 @@ public class PerguntaService {
 		
 		
 	}
+
+
+	@Transactional("padronizaTransactionManager")
+	public Pergunta vincularBloco(Integer idPergunta, Integer idBloco) {
+		
+		Pergunta pergunta = buscarPergunta(idPergunta);
+		
+		Bloco bloco = blocoService.buscarBlocoPorId(idBloco);
+		
+		
+		pergunta.getBlocos().add(bloco);
+		bloco.getPerguntas().add(pergunta);
+		
+		pergunta = perguntaRepository.save(pergunta);
+		bloco = blocoService.atualizaBloco(bloco);
+		
+		
+		
+		return pergunta;
+	}
 	
 	
 

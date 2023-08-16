@@ -13,6 +13,7 @@ import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Checklist;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
+import com.cenop4011.padroniza.repositories.ChecklistRepository;
 
 @Service
 public class BlocoService {
@@ -24,50 +25,98 @@ public class BlocoService {
 	@Autowired
 	ChecklistService checklistService;
 	
+	@Autowired
+	ChecklistRepository checklistRepository;
+	
+	
+	@Transactional("padronizaTransactionManager")
 	public Bloco salvarBloco(BlocoDTO blocoDto, Integer idChecklist) {
 		Checklist checklist ;
 		
 		
 		
 		
-		Bloco bloco = new Bloco();
+		Bloco bloco = new Bloco(blocoDto);
 		
 
 		if(idChecklist>0) {
 			 checklist = checklistService.buscarPorId(idChecklist);
-			// bloco.setChecklist(checklist);
+			bloco.getChecklists().add(checklist);
+			blocoRepository.save(bloco);
+			checklist.getBlocos().add(bloco);
+			checklistRepository.save(checklist);
+		}else{
+			blocoRepository.save(bloco);
+			
 		}
 		
-		bloco.setId(null);
-		bloco.setNomeBloco(blocoDto.getNomeBloco());
-		return blocoRepository.save(bloco);
+		return bloco;
 		
 		
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Transactional("padronizaTransactionManager")
 	public Bloco buscarBlocoPorId(Integer idBloco) {
 		
 		
-		Optional<Bloco> bloco = blocoRepository.findById(idBloco);
-		
-		return bloco.orElseThrow(()->new ObjectNotFoundException("Bloco não encontrado para o id: " + idBloco));
+		 Bloco bloco = blocoRepository.findById(idBloco)
+		            .orElseThrow(() -> new ObjectNotFoundException("Bloco não encontrado para o id: " + idBloco));
+		    
+		    bloco.getPerguntas().size(); // Isso carrega as perguntas (sem carga preguiçosa)
+		    
+		    return bloco;
 		
 	}
 
 	
-	
+	@Transactional("padronizaTransactionManager")
 	public Bloco atualizaBloco(Bloco bloco) {
 		
 			
 		
-			try {
-				bloco = blocoRepository.save(bloco);
-				return bloco;
-				
-			} catch (Exception e) {
-				System.out.println("Erro ao atualizar o bloco" + e.getCause().getMessage());
-				return null;
-			}
+			
+				return blocoRepository.save(bloco);
+			
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Transactional("padronizaTransactionManager")
+	public Bloco vincularCheckList(Integer idBloco, Integer idCheckList) {
+		Bloco bloco = buscarBlocoPorId(idBloco);
+		Checklist checklist = checklistService.buscarPorId(idCheckList);
+		
+		bloco.getChecklists().add(checklist);
+		checklist.getBlocos().add(bloco);
+		bloco= blocoRepository.save(bloco);
+		checklist = checklistService.atualizaChecklist(checklist);
+		return bloco;
 		
 	}
 
