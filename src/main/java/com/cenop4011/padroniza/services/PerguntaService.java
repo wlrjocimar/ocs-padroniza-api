@@ -19,10 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.exceptions.ConstraintException;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Pergunta;
+import com.cenop4011.padroniza.models.PosicaoPergunta;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
 import com.cenop4011.padroniza.repositories.PerguntaRepository;
 
@@ -122,16 +124,8 @@ public class PerguntaService {
 	    
 	    
 	    
-	    
-	    
-	    	
-	    	
-	    
-	    
-	    
-	    
 	    try {
-	        perguntaRepository.delete(pergunta);
+	        perguntaRepository.save(pergunta);
 	    } catch (DataIntegrityViolationException ex) {
 	        throw new ViolacaoIntegridadeException("Não é possível excluir a pergunta porque está sendo usada em outro lugar", ex);
 	    }
@@ -175,22 +169,35 @@ public class PerguntaService {
 
 
 	@Transactional("padronizaTransactionManager")
-	public Pergunta vincularBloco(Integer idPergunta, Integer idBloco) {
+	public Pergunta vincularBloco(Integer idPergunta, Integer idBloco,Integer posicao) {
 		
-		Pergunta pergunta = buscarPergunta(idPergunta);
+		try {
+			Pergunta pergunta = buscarPergunta(idPergunta);
+			
+			Bloco bloco = blocoService.buscarBlocoPorId(idBloco);
+			PosicaoPergunta posicaoPergunta = new PosicaoPergunta();
+			posicaoPergunta.setPosicao(posicao);
+			posicaoPergunta.setBloco(bloco);
+			posicaoPergunta.setPergunta(pergunta);
+			
+			
+			pergunta.getBlocos().add(bloco);
+			pergunta.getPosicaoPerguntas().add(posicaoPergunta);
+			bloco.getPerguntas().add(pergunta);
+			
+			pergunta = perguntaRepository.save(pergunta);
+			bloco = blocoService.atualizaBloco(bloco);
+			
+			
+			
+			return pergunta;
+			
+		} catch (StackOverflowError e) {
+			
+			throw new ViolacaoIntegridadeException("violação de integridade de chave composta");
+		}
 		
-		Bloco bloco = blocoService.buscarBlocoPorId(idBloco);
 		
-		
-		pergunta.getBlocos().add(bloco);
-		bloco.getPerguntas().add(pergunta);
-		
-		pergunta = perguntaRepository.save(pergunta);
-		bloco = blocoService.atualizaBloco(bloco);
-		
-		
-		
-		return pergunta;
 	}
 	
 	

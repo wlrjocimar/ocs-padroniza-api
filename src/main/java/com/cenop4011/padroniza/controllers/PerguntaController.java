@@ -147,7 +147,7 @@ public class PerguntaController {
         @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
 })
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-	public ResponseEntity<?> removerPergunta(@PathVariable Integer idPergunta,@RequestParam(value="bloco", defaultValue = "0")  Integer idBloco){
+	public ResponseEntity<?> desvincularPergunta(@PathVariable Integer idPergunta,@RequestParam(value="bloco", defaultValue = "0")  Integer idBloco){
 		
 		
 		
@@ -162,14 +162,14 @@ public class PerguntaController {
 	}
 	
 	
-	@PostMapping("/vincularbloco/{idPergunta}/{idBloco}")
+	@PostMapping("/vincularbloco/{idPergunta}/{idBloco}/{posicao}") // o parametro posição ira definir a posição da pergunta em relação ao bloco
 	 @ApiImplicitParams({
 	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
 	})
 		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-	public ResponseEntity<?> vincularBloco(@PathVariable Integer idPergunta, @PathVariable Integer idBloco){
+	public ResponseEntity<?> vincularBloco(@PathVariable Integer idPergunta, @PathVariable Integer idBloco, @PathVariable Integer posicao ){
 		
-		Pergunta pergunta = perguntaService.vincularBloco(idPergunta,idBloco);
+		Pergunta pergunta = perguntaService.vincularBloco(idPergunta,idBloco,posicao);
 		
 		
 		return ResponseEntity.ok().body(pergunta);

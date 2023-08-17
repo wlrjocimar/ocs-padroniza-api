@@ -21,6 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.cenop4011.padroniza.dtos.BlocoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,8 +49,15 @@ public class Bloco implements Serializable{
 	@Column(name="nome_bloco")
 	private String nomeBloco;
 	
-	
-	
+//	@JsonIgnore
+//	@LazyCollection(value = LazyCollectionOption.FALSE)
+//	@ManyToMany
+//    @JoinTable(
+//        name = "bloco_pergunta",
+//        joinColumns = @JoinColumn(name = "bloco_id"),
+//        inverseJoinColumns = @JoinColumn(name = "pergunta_id")
+//    )
+//    private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
 	
 	
 	public Bloco(BlocoDTO blocoDTO) {

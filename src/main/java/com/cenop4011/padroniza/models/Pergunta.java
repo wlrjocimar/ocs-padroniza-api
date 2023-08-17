@@ -69,6 +69,9 @@ public class Pergunta implements Serializable {
 	
 	
 	
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
 	
 	
 	public Pergunta() {
@@ -145,7 +148,7 @@ public class Pergunta implements Serializable {
 	private List<CodigoLinha> listaCodigosLinha = new ArrayList<>();
 	
 	
-	//@JsonIgnore
+	@JsonIgnore
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
 	private List<Resposta> respostas = new ArrayList<>();
