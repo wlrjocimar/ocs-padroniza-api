@@ -49,15 +49,7 @@ public class Bloco implements Serializable{
 	@Column(name="nome_bloco")
 	private String nomeBloco;
 	
-//	@JsonIgnore
-//	@LazyCollection(value = LazyCollectionOption.FALSE)
-//	@ManyToMany
-//    @JoinTable(
-//        name = "bloco_pergunta",
-//        joinColumns = @JoinColumn(name = "bloco_id"),
-//        inverseJoinColumns = @JoinColumn(name = "pergunta_id")
-//    )
-//    private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
+
 	
 	
 	public Bloco(BlocoDTO blocoDTO) {

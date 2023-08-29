@@ -33,7 +33,7 @@ public class PerguntaDTO implements Serializable{
 	private String ajuda;
 	private String observacao;
 	private Integer tempoAlerta;
-	private Integer instrucaoIn;
+	private String instrucaoIn;
 	private String link;
 	private Integer posicao;   // atributo somente de retorno para mostrar model pergunta quando dentro de um bloco qual a posição que esta pegunta assume
 	

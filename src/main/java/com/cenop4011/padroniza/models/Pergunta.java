@@ -63,7 +63,7 @@ public class Pergunta implements Serializable {
 	@Column(name="tempo_alerta")
 	private Integer tempoAlerta;
 	@Column(name="ref_in")// instrução normativa de referencia
-	private Integer instrucaoIn; /// relacionar com uma lista de instruções que vinculam à pergunta
+	private String instrucaoIn; /// relacionar com uma lista de instruções que vinculam à pergunta
 	@Column(name="link")
 	private String link;
 	
