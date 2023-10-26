@@ -9,12 +9,13 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.cenop4011.padroniza.models.CodigoLinha;
 import com.cenop4011.padroniza.models.Pergunta;
-import com.cenop4011.padroniza.models.Resposta;
 
 import lombok.Data;
 
@@ -28,10 +29,13 @@ public class PerguntaDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
+	@NotNull(message = "descrição não pode ser nulo")
+	@NotBlank(message="informe a descição")
 	private String descricao;
 	private Integer versao;
 	private String ajuda;
 	private String observacao;
+    @NotNull(message = "Tempo alerta não pode ser nulo")
 	private Integer tempoAlerta;
 	private String instrucaoIn;
 	private String link;
@@ -39,18 +43,41 @@ public class PerguntaDTO implements Serializable{
 	
 	
 	
-	@NotNull
+	
+
+	public PerguntaDTO()  {
+
+		super();
+		
+		
+			
+		
+		
+	}
+	
+	
+	
+	
+	
+	@NotNull(message = "tipo de resposta deve ser 'NUMERICO' ou 'CONDICIONAL' ")
 	@Enumerated(EnumType.STRING)
 	private TipoPerguntaList tipoResposta;
 	
 	
 	private List<Integer> listaCodigosLinha = new ArrayList<>();
+	
+	@NotNull(message = "Informe as possives respostas para gravar uma pergunta")
+	@NotEmpty(message = "Informe as possives respostas para gravar uma pergunta")
 	private List<RespostaDTO> respostas = new ArrayList<>();
 	
 	
 	
 	public PerguntaDTO(Pergunta pergunta) {
 		super();
+		
+		
+		
+		
 		this.id = pergunta.getId();
 		this.descricao = pergunta.getDescricao();
 		this.versao = pergunta.getVersao();
@@ -64,14 +91,11 @@ public class PerguntaDTO implements Serializable{
 			    .forEach(listaCodigosLinha::add);
 		respostas= pergunta.getRespostas().stream().map((resp)-> new RespostaDTO(resp)).collect(Collectors.toList());
 		
-	}
-
-
-	public PerguntaDTO() {
-		super();
+		
 		
 	}
-	
+
+
 	
 	
 	

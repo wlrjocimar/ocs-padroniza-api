@@ -199,6 +199,14 @@ public class PerguntaService {
 		
 		
 	}
+
+
+	
+	public void deletarPergunta(Integer idPergunta) {
+		 Pergunta pergunta = buscarPergunta(idPergunta);
+		 perguntaRepository.delete(pergunta);
+		
+	}
 	
 	
 

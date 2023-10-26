@@ -59,6 +59,7 @@ public class Pergunta implements Serializable {
 	@Column(name="versao")
 	private Integer versao;
 	private String ajuda;
+	@Column(name = "observacao", length = 1000)
 	private String observacao;
 	@Column(name="tempo_alerta")
 	private Integer tempoAlerta;
@@ -66,6 +67,8 @@ public class Pergunta implements Serializable {
 	private String instrucaoIn; /// relacionar com uma lista de instruções que vinculam à pergunta
 	@Column(name="link")
 	private String link;
+	@Column(name="ativo")
+	private Boolean ativo=true;
 	
 	
 	
@@ -92,6 +95,7 @@ public class Pergunta implements Serializable {
 		this.tempoAlerta = perguntaDTO.getTempoAlerta();
 		this.instrucaoIn = perguntaDTO.getInstrucaoIn();
 		this.tipoResposta = perguntaDTO.getTipoResposta();
+		this.link=perguntaDTO.getLink();
 		this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
 		this.respostas= adicionarRespostas(perguntaDTO);
 		
@@ -148,7 +152,7 @@ public class Pergunta implements Serializable {
 	private List<CodigoLinha> listaCodigosLinha = new ArrayList<>();
 	
 	
-	@JsonIgnore
+	//@JsonIgnore
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
 	private List<Resposta> respostas = new ArrayList<>();
@@ -173,6 +177,7 @@ public class Pergunta implements Serializable {
 		this.tempoAlerta = perguntaDTO.getTempoAlerta();
 		this.instrucaoIn = perguntaDTO.getInstrucaoIn();
 		this.tipoResposta = perguntaDTO.getTipoResposta();
+		this.respostas= adicionarRespostas(perguntaDTO);
 		
 		
 		return this;

@@ -41,8 +41,10 @@ public class Resposta implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column
+	@Column(name="resposta")
 	private String resposta;
+	@Column(name="ativo")
+	private Boolean ativo=true;
 	
 	
 	@JsonIgnore

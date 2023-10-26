@@ -5,23 +5,16 @@ import com.cenop4011.padroniza.models.ComportamentoResposta;
 import lombok.Data;
 
 @Data
-public class ComportamentoRespostaDTO {
+public class TipoComportamentoDTO {
 	
-	
-	private Integer codigoTipoComportamento;
-	
-	
-	
-	public ComportamentoRespostaDTO() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public ComportamentoRespostaDTO(ComportamentoResposta comportamentoResposta) {
-		super();
+
+	private Integer codigoTipoComportamento;
+
+	
+	public TipoComportamentoDTO(ComportamentoResposta comportamentoResposta) {
 		this.codigoTipoComportamento = comportamentoResposta.getTipoComportamento().getCodigoTipoComportamento();
 	}
 	
 	
-	
-
 }

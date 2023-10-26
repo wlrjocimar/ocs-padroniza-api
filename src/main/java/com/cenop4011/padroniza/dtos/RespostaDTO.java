@@ -2,6 +2,7 @@ package com.cenop4011.padroniza.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 
@@ -20,7 +21,7 @@ public class RespostaDTO {
 	
 	
 	
-	private List<ComportamentoRespostaDTO> comportamentos = new ArrayList<>();
+private List<ComportamentoRespostaDTO> comportamentos = new ArrayList<>();
 
 
 public RespostaDTO() {
@@ -30,6 +31,7 @@ public RespostaDTO() {
 
 	public RespostaDTO(Resposta resp) {
 		this.resposta= resp.getResposta();
+		comportamentos= resp.getComportamentos().stream().map((comp)-> new ComportamentoRespostaDTO(comp)).collect(Collectors.toList());
 		
 		
 	}

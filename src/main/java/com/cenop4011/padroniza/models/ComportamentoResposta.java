@@ -1,19 +1,16 @@
 package com.cenop4011.padroniza.models;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
-import com.cenop4011.padroniza.enuns.TipoComportamento;
-import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -30,10 +27,8 @@ public class ComportamentoResposta {
 	private Integer id;
 	
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(name="tipo_comportamento")
-	private TipoComportamento tipoComportamento;
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
+	private TipoComportamentoResposta tipoComportamento;
 	
 	
 	@JsonIgnore
@@ -45,7 +40,7 @@ public class ComportamentoResposta {
 	}
 	
 	public ComportamentoResposta(ComportamentoRespostaDTO comportamentoRespostaDTO) {
-		this.tipoComportamento = comportamentoRespostaDTO.getTipoComportamento();
+		this.tipoComportamento = new TipoComportamentoResposta(comportamentoRespostaDTO);
 		
 	}
 
