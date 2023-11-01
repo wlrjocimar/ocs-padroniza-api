@@ -30,5 +30,25 @@ public class Diligencia implements Serializable {
 	private String observacao;
 	@Column(name="ativo")
 	private Boolean ativo = true;
+	@Column(name="nome_detalhe_ocorrencia")
+	private String nomeDetalheOcorrencia;
+	
+	
+	
+	
+	
+	public Diligencia(Integer id) {
+		
+		this.id = id;
+	}
+
+
+	public Diligencia() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
 
 }

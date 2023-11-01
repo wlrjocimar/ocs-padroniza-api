@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cenop4011.padroniza.dtos.OcorrenciaDTO;
 import com.cenop4011.padroniza.services.OcorrenciaService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("ocorrencias")
 @CrossOrigin("*")
+@Api(tags = "Listar Ocorrencias",description = " ")
 public class OcorrenciaController {
 
 	

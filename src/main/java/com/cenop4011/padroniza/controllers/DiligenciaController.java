@@ -20,12 +20,14 @@ import com.cenop4011.padroniza.dtos.DiligenciaDTO;
 import com.cenop4011.padroniza.models.Diligencia;
 import com.cenop4011.padroniza.services.DiligenciaService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @RequestMapping("diligencias")
 @CrossOrigin("*")
+@Api(tags = "Gerenciar Diligencias",description = " ")
 public class DiligenciaController {
 	
 	@Autowired

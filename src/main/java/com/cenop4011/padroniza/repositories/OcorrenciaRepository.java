@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.cenop4011.padroniza.dtos.DiligenciaDTO;
 import com.cenop4011.padroniza.dtos.OcorrenciaDTO;
+import com.cenop4011.padroniza.models.Diligencia;
 
 @Repository
 public class OcorrenciaRepository {
@@ -52,6 +54,18 @@ public class OcorrenciaRepository {
          });
         
      }
+    
+    
+    public Diligencia buscarComplementoDiligenciaNumeroDetalheOcorrencia(Diligencia diligencia)  {
+        String sql = "SELECT NM_DETALHE_OCR from  uso_dados.TB_DETALHE_OCR  WHERE CD_DETALHE_OCR=" + diligencia.getCodigoDetalheOcorrencia();
+
+        return usoDadosJdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+        	
+        	diligencia.setNomeDetalheOcorrencia(rs.getString("NM_DETALHE_OCR"));
+           
+            return diligencia;
+        });
+    }
 
 	
 	

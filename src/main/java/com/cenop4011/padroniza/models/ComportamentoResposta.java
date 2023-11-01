@@ -30,6 +30,10 @@ public class ComportamentoResposta {
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
 	private TipoComportamentoResposta tipoComportamento;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	private ValorComportamentoResposta valorComportamentoResposta;
+	
+	
 	
 	@JsonIgnore
 	@ManyToOne
@@ -41,6 +45,8 @@ public class ComportamentoResposta {
 	
 	public ComportamentoResposta(ComportamentoRespostaDTO comportamentoRespostaDTO) {
 		this.tipoComportamento = new TipoComportamentoResposta(comportamentoRespostaDTO);
+		this.valorComportamentoResposta = new ValorComportamentoResposta(comportamentoRespostaDTO);
+		
 		
 	}
 

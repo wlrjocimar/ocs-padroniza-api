@@ -19,6 +19,8 @@ public class DiligenciaDTO {
 	@NotBlank(message = "Informar observação")
 	private String observacao;
 	
+	private String nomeDetalheOcorrencia;
+	
 	private Boolean ativo;
 
 	public DiligenciaDTO(Diligencia diligencia) {
@@ -27,6 +29,7 @@ public class DiligenciaDTO {
 		this.codigoDetalheOcorrencia = diligencia.getCodigoDetalheOcorrencia();
 		this.observacao = diligencia.getObservacao();
 		this.ativo = diligencia.getAtivo();
+		this.nomeDetalheOcorrencia = diligencia.getNomeDetalheOcorrencia();
 	}
 
 	public DiligenciaDTO() {

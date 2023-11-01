@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,6 +38,13 @@ public class ResourceExceptionHandler {
         StandardError standardError = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), e.getMessage());
    
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+    }
+    
+    @ExceptionHandler(CannotGetJdbcConnectionException.class)
+    public ResponseEntity<StandardError> erroConxao(CannotGetJdbcConnectionException e,ServletRequest request){
+    	StandardError standardError = new StandardError(System.currentTimeMillis(), HttpStatus.GATEWAY_TIMEOUT.value(), e.getMessage());
+    	
+    	return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(standardError);
     }
     
     
