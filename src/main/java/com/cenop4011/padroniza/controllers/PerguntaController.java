@@ -146,11 +146,11 @@ public class PerguntaController {
 	
 	
 	@GetMapping
-	public ResponseEntity<List<PerguntaDTO>> buscarTodasPerguntas(){
+	public ResponseEntity<List<Pergunta>> buscarTodasPerguntas(){
 		
 			List<Pergunta> perguntas = perguntaService.buscarTodas();
-            List<PerguntaDTO> perguntasDTO = perguntas.stream().map(pergunta -> new PerguntaDTO(pergunta)).collect(Collectors.toList());
-			return ResponseEntity.ok().body(perguntasDTO);
+            //List<PerguntaDTO> perguntasDTO = perguntas.stream().map(pergunta -> new PerguntaDTO(pergunta)).collect(Collectors.toList());
+			return ResponseEntity.ok().body(perguntas);
 		
 	}
 	

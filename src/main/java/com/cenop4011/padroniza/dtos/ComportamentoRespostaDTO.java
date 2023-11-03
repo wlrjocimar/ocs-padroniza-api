@@ -14,6 +14,8 @@ public class ComportamentoRespostaDTO {
 	@NotNull(message = "informe O codigo do valor do comportamento")
 	private Integer codigoValorComportamento;
 	
+	private ValorComportamentoRespostaDTO valorComportamentoRespostaDTO;
+	
 	
 	
 	public ComportamentoRespostaDTO() {
@@ -23,6 +25,7 @@ public class ComportamentoRespostaDTO {
 	public ComportamentoRespostaDTO(ComportamentoResposta comportamentoResposta) {
 		super();
 		this.codigoTipoComportamento = comportamentoResposta.getTipoComportamento().getCodigoTipoComportamento();
+		this.valorComportamentoRespostaDTO = new ValorComportamentoRespostaDTO(comportamentoResposta);
 	}
 	
 	

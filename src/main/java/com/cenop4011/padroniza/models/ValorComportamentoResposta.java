@@ -28,12 +28,7 @@ public class ValorComportamentoResposta {
     @JoinColumn(name = "diligencia_id", referencedColumnName = "id")
     private Diligencia diligencia;
 	
-//	
-//	@JsonI
-//	@ManyToOne
-//    @JoinColumn(name = "tipo_comportamento_resposta_id", referencedColumnName = "codigo_tipo_comportamento")
-//    private TipoComportamentoResposta tipoComportamentoResposta;
-//	
+
 	
 	
 	
