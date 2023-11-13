@@ -1,6 +1,8 @@
 package com.cenop4011.padroniza.controllers;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.websocket.server.PathParam;
 
@@ -93,5 +95,25 @@ public class BlocoController {
 	}
 	
 	
+   @GetMapping
+	
+	public ResponseEntity<List<Bloco>> buscarTodosBlocos(){
+		
+	   List<Bloco> blocos = new ArrayList<>();
+	   
+	   blocos = blocoService.buscarTodos();
+		
+		//int qtdperguntasBloco = bloco.getPerguntas().size();
+		
+		return ResponseEntity.ok().body(blocos);
+		
+	}
+	
+	
+   
+   
+
+   
+   
 
 }

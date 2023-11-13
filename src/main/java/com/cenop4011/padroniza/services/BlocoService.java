@@ -1,5 +1,6 @@
 package com.cenop4011.padroniza.services;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -118,6 +119,32 @@ public class BlocoService {
 		checklist = checklistService.atualizaChecklist(checklist);
 		return bloco;
 		
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	@Transactional("padronizaTransactionManager")
+	public List<Bloco> buscarTodos() {
+		
+		List<Bloco> blocos = blocoRepository.findAll();
+	    
+	    for (Bloco bloco : blocos) {
+	        // Carrega a lista de perguntas dentro do contexto da transação ativa
+	        bloco.getPerguntas().size();
+	    }
+	    
+	    return blocos;
 	}
 
 }

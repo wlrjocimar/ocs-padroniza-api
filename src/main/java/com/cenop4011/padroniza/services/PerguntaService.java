@@ -19,12 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.exceptions.ConstraintException;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
+import com.cenop4011.padroniza.models.PosicaoPerguntaId;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
 import com.cenop4011.padroniza.repositories.PerguntaRepository;
 
@@ -106,15 +108,34 @@ public class PerguntaService {
 	public void removerPergunta(Integer idPergunta, Integer idBloco) {
 	    Pergunta pergunta = buscarPergunta(idPergunta);
 	    Bloco bloco =null;
+	    PosicaoPerguntaId posicaoPerguntaId=null;
+	    
+	    
 	    
 	    if (idBloco > 0) {
 	         bloco = blocoService.buscarBlocoPorId(idBloco);
+	         posicaoPerguntaId = new PosicaoPerguntaId(bloco, pergunta);
 	    }
 	    
 	   
 	    
 	    
+	    
 	    if(pergunta.getBlocos().contains(bloco)) {
+	    	
+	    	
+	    	 if(pergunta.getPosicaoPerguntas().size()>0) {
+	    		 Bloco blocoInteresse = blocoService.buscarBlocoPorId(idBloco);
+	 	    	 PosicaoPergunta posicaoPerguntaDesejada = pergunta.getPosicaoPerguntas().stream()
+	 	    		    .filter(posicao -> posicao.getBloco().equals(blocoInteresse))
+	 	    		    .findFirst()
+	 	    		    .orElse(null);
+	 	    	
+	 	    	pergunta.getPosicaoPerguntas().remove(posicaoPerguntaDesejada);
+	 				
+	 			}
+	    	
+	    	
 	    	bloco.getPerguntas().remove(pergunta);
 	        pergunta.getBlocos().remove(bloco);
 	    } else if(pergunta.getBlocos().size()>0) {
@@ -122,7 +143,7 @@ public class PerguntaService {
 	    	throw new  ObjectNotFoundException("Bloco " + idBloco + " não vinculado a pergunta");
 	    }
 	    
-	    
+	   
 	    
 	    try {
 	        perguntaRepository.save(pergunta);
@@ -194,7 +215,7 @@ public class PerguntaService {
 			
 		} catch (StackOverflowError e) {
 			
-			throw new ViolacaoIntegridadeException("violação de integridade de chave composta");
+			throw new ViolacaoIntegridadeException("violação de integridade de chave composta : " + e.toString());
 		}
 		
 		
@@ -205,6 +226,52 @@ public class PerguntaService {
 	public void deletarPergunta(Integer idPergunta) {
 		 Pergunta pergunta = buscarPergunta(idPergunta);
 		 perguntaRepository.delete(pergunta);
+		
+	}
+
+
+
+	
+	@Transactional("padronizaTransactionManager")
+	public void atualizarTodasPosicoes(List<PosicaoPerguntaInputDTO> posicoesPerguntas, Integer idBloco) {
+		
+		Bloco bloco = blocoService.buscarBlocoPorId(idBloco);
+		
+		//bloco.getPerguntas();
+		
+		for (PosicaoPerguntaInputDTO posicaoPerguntaInputDTO : posicoesPerguntas) {
+			
+			
+			
+			
+			Pergunta pergunta = buscarPergunta(posicaoPerguntaInputDTO.getIdPergunta());
+			
+			//pergunta.getBlocos();
+			
+			removerPergunta(pergunta.getId(), idBloco); //remover leia-se desvincular
+			
+			
+			
+		}
+		
+			
+		for (PosicaoPerguntaInputDTO posicaoPerguntaInputDTO : posicoesPerguntas) {
+					
+					
+					
+					
+					Pergunta pergunta = buscarPergunta(posicaoPerguntaInputDTO.getIdPergunta());
+					
+					//pergunta.getBlocos();
+					
+					vincularBloco(posicaoPerguntaInputDTO.getIdPergunta(), idBloco, posicaoPerguntaInputDTO.getPosicao());
+					
+					
+					
+					
+				}
+		
+		
 		
 	}
 	

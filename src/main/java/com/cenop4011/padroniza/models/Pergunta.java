@@ -50,7 +50,7 @@ public class Pergunta implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="descricao")
+	@Column(name="descricao",length = 1000)
 	private String descricao;
 	@Column(name = "created_at")
 	private Date createdAt;
@@ -58,6 +58,7 @@ public class Pergunta implements Serializable {
 	private Date updatedAt;
 	@Column(name="versao")
 	private Integer versao;
+	@Column(name = "ajuda", length = 1000)
 	private String ajuda;
 	@Column(name = "observacao", length = 1000)
 	private String observacao;

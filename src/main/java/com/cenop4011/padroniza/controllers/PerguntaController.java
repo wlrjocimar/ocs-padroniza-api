@@ -1,6 +1,8 @@
 package com.cenop4011.padroniza.controllers;
 
+import java.lang.reflect.Array;
 import java.net.URI;
+import java.util.AbstractSequentialList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.PerguntaService;
@@ -217,5 +220,24 @@ public class PerguntaController {
 		
 		
 	}
+	
+	
+
+	@PostMapping("/atualizaposicoes/{idBloco}")
+	 @ApiImplicitParams({
+	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+	})
+		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+   public ResponseEntity<?> atualizaTodasPosicoesPerguntas(@RequestBody List<PosicaoPerguntaInputDTO> posicoesPerguntas , @PathVariable Integer idBloco){
+
+			
+			perguntaService.atualizarTodasPosicoes(posicoesPerguntas,idBloco);
+			
+		
+			return ResponseEntity.status(HttpStatus.OK).body(posicoesPerguntas);
+   }
+   
+	
+	
 
 }

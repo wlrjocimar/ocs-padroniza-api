@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.Embeddable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Embeddable
@@ -14,8 +16,13 @@ public class PosicaoPerguntaId implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Bloco bloco;
-    private Pergunta pergunta;
+	private Pergunta pergunta;
+    
+    
+    
+    
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -31,6 +38,16 @@ public class PosicaoPerguntaId implements Serializable {
 	public int hashCode() {
 		return Objects.hash(bloco, pergunta);
 	}
+	public PosicaoPerguntaId(Bloco bloco, Pergunta pergunta) {
+		super();
+		this.bloco = bloco;
+		this.pergunta = pergunta;
+	}
+	public PosicaoPerguntaId() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	
     
 

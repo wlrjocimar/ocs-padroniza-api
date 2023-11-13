@@ -48,7 +48,8 @@ public class Bloco implements Serializable{
 	private Integer id;
 	@Column(name="nome_bloco")
 	private String nomeBloco;
-	
+	@Column(name="ativo")
+	private Boolean ativo=true;
 
 	
 	
@@ -95,7 +96,7 @@ public class Bloco implements Serializable{
 	
 	
 	//@JsonIgnore
-	@ManyToMany()
+	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "tb_bloco_pergunta",
         joinColumns = @JoinColumn(name = "bloco_id", referencedColumnName = "id"),
