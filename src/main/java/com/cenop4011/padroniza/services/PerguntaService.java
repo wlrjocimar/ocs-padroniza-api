@@ -3,6 +3,7 @@ package com.cenop4011.padroniza.services;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.exceptions.ConstraintException;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
@@ -287,6 +289,49 @@ public class PerguntaService {
 		
 		
 		
+	}
+
+
+
+	public Pergunta atualizaPerguntaSomenteParcial(PerguntaInputDTO perguntaInputDTO, Integer idPergunta) {
+		
+		Pergunta pergunta = buscarPergunta(idPergunta);
+		pergunta.setUpdatedAt(new Date());
+		
+		if (perguntaInputDTO.getDescricao() != null && !perguntaInputDTO.getDescricao().isEmpty()) {
+	        pergunta.setDescricao(perguntaInputDTO.getDescricao());
+	    }
+
+	    if (perguntaInputDTO.getVersao() != null) {
+	        pergunta.setVersao(perguntaInputDTO.getVersao());
+	    }
+
+	    if (perguntaInputDTO.getAjuda() != null && !perguntaInputDTO.getAjuda().isEmpty()) {
+	        pergunta.setAjuda(perguntaInputDTO.getAjuda());
+	    }
+
+	    if (perguntaInputDTO.getObservacao() != null && !perguntaInputDTO.getObservacao().isEmpty()) {
+	        pergunta.setObservacao(perguntaInputDTO.getObservacao());
+	    }
+
+	    if (perguntaInputDTO.getTempoAlerta() != null) {
+	        pergunta.setTempoAlerta(perguntaInputDTO.getTempoAlerta());
+	    }
+
+	    if (perguntaInputDTO.getInstrucaoIn() != null && !perguntaInputDTO.getInstrucaoIn().isEmpty()) {
+	        pergunta.setInstrucaoIn(perguntaInputDTO.getInstrucaoIn());
+	    }
+
+	    if (perguntaInputDTO.getLink() != null && !perguntaInputDTO.getLink().isEmpty()) {
+	        pergunta.setLink(perguntaInputDTO.getLink());
+	    }
+		
+	    
+		
+	      perguntaRepository.save(pergunta);
+	    
+		
+		return pergunta;
 	}
 	
 	

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Pergunta;
@@ -238,6 +240,26 @@ public class PerguntaController {
 			return ResponseEntity.status(HttpStatus.OK).body(posicoesPerguntas);
    }
    
+	
+	
+	@PatchMapping("/{idPergunta}")
+	
+	 @ApiImplicitParams({
+	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+	})
+		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public ResponseEntity<Pergunta> atualizarPerguntaParcial(@RequestBody PerguntaInputDTO perguntaInputDTO, @PathVariable Integer idPergunta ){
+		
+		Pergunta pergunta = perguntaService.atualizaPerguntaSomenteParcial(perguntaInputDTO,idPergunta);
+		
+		
+		return ResponseEntity.ok().body(pergunta);
+		
+		
+		
+		
+	}
+	
 	
 	
 
