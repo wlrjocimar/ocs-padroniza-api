@@ -50,9 +50,22 @@ public class ChecklistService {
 	}
 
 
+	
+	@Transactional("padronizaTransactionManager")
 	public List<Checklist> buscarTodos() {
 		
-		return checklistRepository.findAll();
+		List<Checklist> checklists = checklistRepository.findAll();
+		
+		for (Checklist checklist : checklists) { /// tecnica de carregamento quando o relacionamento tem carregamento lazy , que é o ideal
+			checklist.getBlocos().size();
+			
+			for (Bloco bloco : checklist.getBlocos()) {
+				
+				bloco.getPerguntas().size();
+			}
+			
+		}
+		return checklists;
 		
 	}
 

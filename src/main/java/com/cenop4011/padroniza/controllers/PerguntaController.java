@@ -33,6 +33,7 @@ import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Pergunta;
+import com.cenop4011.padroniza.models.PosicaoPergunta;
 import com.cenop4011.padroniza.services.PerguntaService;
 import com.cenop4011.padroniza.validators.PerguntaDTOValidator;
 
@@ -109,7 +110,7 @@ public class PerguntaController {
                 .path("/{id}")
                 .buildAndExpand(pergunta.getId())
                 .toUri();
-
+       
        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(perguntaGravada);
 		
 		
@@ -228,7 +229,7 @@ public class PerguntaController {
 	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
 	})
 		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-   public ResponseEntity<?> atualizaTodasPosicoesPerguntas(@RequestBody List<PosicaoPerguntaInputDTO> posicoesPerguntas , @PathVariable Integer idBloco){
+   public ResponseEntity<List<PosicaoPerguntaInputDTO>> vinculaVariasPerguntasAoBloco(@RequestBody List<PosicaoPerguntaInputDTO> posicoesPerguntas , @PathVariable Integer idBloco){
 
 			
 			perguntaService.atualizarTodasPosicoes(posicoesPerguntas,idBloco);

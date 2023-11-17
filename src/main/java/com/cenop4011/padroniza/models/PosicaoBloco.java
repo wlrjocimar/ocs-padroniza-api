@@ -1,6 +1,5 @@
 package com.cenop4011.padroniza.models;
 
-
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -12,16 +11,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
-
-
-// posicao da pergunta em relação ao bloco
-
 @Entity
-@IdClass(PosicaoPerguntaId.class)
 
-@Table(name = "tb_posicao_pergunta")
-public class PosicaoPergunta {
+@IdClass(PosicaoBlocoId.class)
+
+@Table(name = "tb_posicao_bloco")
+public class PosicaoBloco {
+	
 	
 	
 
@@ -35,13 +31,13 @@ public class PosicaoPergunta {
 	@JsonIgnore
     @ManyToOne
     @Id
-    @JoinColumn(name = "pergunta_id")
-    private Pergunta pergunta;
+    @JoinColumn(name = "checklist_id")
+    private Checklist checklist;
 
     private int posicao;
     
     @javax.persistence.Transient
-    private Integer numeroBloco;
+    private Integer idChecklist;
 
 	public Bloco getBloco() {
 		return bloco;
@@ -51,12 +47,12 @@ public class PosicaoPergunta {
 		this.bloco = bloco;
 	}
 
-	public Pergunta getPergunta() {
-		return pergunta;
+	public Checklist getChecklist() {
+		return checklist;
 	}
 
-	public void setPergunta(Pergunta pergunta) {
-		this.pergunta = pergunta;
+	public void setChecklist(Checklist checklist) {
+		this.checklist = checklist;
 	}
 
 	public int getPosicao() {
@@ -67,17 +63,17 @@ public class PosicaoPergunta {
 		this.posicao = posicao;
 	}
 
-	public Integer getNumeroBloco() {
-		return this.bloco.getId();
+	public Integer getIdChecklist() {
+		return this.checklist.getId();
 	}
 
-	public void setNumeroBloco(Integer numeroBloco) {
-		this.numeroBloco = numeroBloco;
+	public void setIdChecklist(Integer idChecklist) {
+		this.idChecklist = idChecklist;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bloco, numeroBloco, pergunta, posicao);
+		return Objects.hash(bloco, checklist, idChecklist, posicao);
 	}
 
 	@Override
@@ -88,16 +84,13 @@ public class PosicaoPergunta {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PosicaoPergunta other = (PosicaoPergunta) obj;
-		return Objects.equals(bloco, other.bloco) && Objects.equals(numeroBloco, other.numeroBloco)
-				&& Objects.equals(pergunta, other.pergunta) && posicao == other.posicao;
+		PosicaoBloco other = (PosicaoBloco) obj;
+		return Objects.equals(bloco, other.bloco) && Objects.equals(checklist, other.checklist)
+				&& Objects.equals(idChecklist, other.idChecklist) && posicao == other.posicao;
 	}
     
     
-	
-	
     
     
-	
 
 }

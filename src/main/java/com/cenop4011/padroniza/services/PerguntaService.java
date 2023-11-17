@@ -3,6 +3,7 @@ package com.cenop4011.padroniza.services;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -236,24 +237,37 @@ public class PerguntaService {
 	public void atualizarTodasPosicoes(List<PosicaoPerguntaInputDTO> posicoesPerguntas, Integer idBloco) {
 		
 		Bloco bloco = blocoService.buscarBlocoPorId(idBloco);
+		bloco.getPerguntas();
 		
-		//bloco.getPerguntas();
+		System.out.println(bloco.getPerguntas().size());
 		
-		for (PosicaoPerguntaInputDTO posicaoPerguntaInputDTO : posicoesPerguntas) {
-			
-			
-			
-			
-			Pergunta pergunta = buscarPergunta(posicaoPerguntaInputDTO.getIdPergunta());
-			
-			//pergunta.getBlocos();
-			
-			removerPergunta(pergunta.getId(), idBloco); //remover leia-se desvincular
-			
-			
-			
+		
+		
+		List<Pergunta> copiaListaPeguntasBloco = new ArrayList<>(bloco.getPerguntas());
+
+		for (Pergunta pergunta : copiaListaPeguntasBloco) {
+		    removerPergunta(pergunta.getId(), idBloco);
 		}
 		
+		
+		
+		
+		
+//		
+//		for (PosicaoPerguntaInputDTO posicaoPerguntaInputDTO : posicoesPerguntas) {
+//			
+//			
+//			
+//			
+//			Pergunta pergunta = buscarPergunta(posicaoPerguntaInputDTO.getIdPergunta());
+//			
+//			pergunta.getBlocos();
+//			removerPergunta(pergunta.getId(), idBloco); //remover leia-se desvincular
+//			
+//	
+//			
+//		}
+//		
 			
 		for (PosicaoPerguntaInputDTO posicaoPerguntaInputDTO : posicoesPerguntas) {
 					

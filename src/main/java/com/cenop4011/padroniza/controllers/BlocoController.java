@@ -7,10 +7,13 @@ import java.util.List;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.BlocoDTO;
+import com.cenop4011.padroniza.dtos.PosicaoBlocoInputDTO;
+import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
+import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.BlocoService;
@@ -80,14 +86,14 @@ public class BlocoController {
 	
 	
 	
-	@PostMapping("/vincularchecklist/{idBloco}/{idCheckList}")
+	@PostMapping("/vincularchecklist/{idBloco}/{idCheckList}/{posicao}")
 	 @ApiImplicitParams({
 	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
 	})
 		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-	public ResponseEntity<?> vincularCheckList(@PathVariable Integer idBloco, @PathVariable Integer idCheckList){
+	public ResponseEntity<?> vincularCheckList(@PathVariable Integer idBloco, @PathVariable Integer idCheckList, @PathVariable Integer posicao){
 		
-		Bloco bloco = blocoService.vincularCheckList(idBloco,idCheckList);
+		Bloco bloco = blocoService.vincularCheckList(idBloco,idCheckList,posicao);
 		
 		
 		return ResponseEntity.ok().body(bloco);
@@ -113,6 +119,69 @@ public class BlocoController {
    
    
 
+	@DeleteMapping("/{idBloco}")
+	 @ApiImplicitParams({
+      @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+})
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public ResponseEntity<?> deletarBloco(@PathVariable Integer idBloco){
+		
+		
+		try {
+			blocoService.deletarBloco(idBloco);
+
+			 return ResponseEntity.noContent().build();
+			
+		} catch (DataIntegrityViolationException e) {
+		    throw new ViolacaoIntegridadeException("O bloco  pode estar sendo utilizado em algum checklist já, neste caso somente poderá excluir se desvincular antes");
+		}
+			
+     
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	@DeleteMapping("/desvincula/{idBloco}")
+	 @ApiImplicitParams({
+       @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+})
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public ResponseEntity<?> desvincularBloco(@PathVariable Integer idBloco,@RequestParam(value="checklist", defaultValue = "0")  Integer idChecklist){
+		
+		
+		
+			blocoService.removerBloco(idBloco,idChecklist);
+
+			 return ResponseEntity.noContent().build();
+      
+		
+		
+		
+		
+	}
+   
+	
+	
+	@PostMapping("/atualizaposicoes/{idChecklist}")
+	 @ApiImplicitParams({
+	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+	})
+		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+  public ResponseEntity<List<PosicaoBlocoInputDTO>> vincularVariosBlocosAoChecklist(@RequestBody List<PosicaoBlocoInputDTO> posicoesBlocos , @PathVariable Integer idChecklist){
+
+			
+			blocoService.atualizarTodasPosicoes(posicoesBlocos,idChecklist);
+			
+		
+			return ResponseEntity.status(HttpStatus.OK).body(posicoesBlocos);
+  }
+  
+	
    
    
 

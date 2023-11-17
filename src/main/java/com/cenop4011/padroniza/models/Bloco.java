@@ -83,7 +83,9 @@ public class Bloco implements Serializable{
 
 
 
-
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "bloco", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PosicaoBloco> posicaoBlocos = new ArrayList<>();
 
 
 

@@ -39,7 +39,7 @@ public class Checklist implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name = "nome_personalizado")
-	private String nomePersonaliado; //exemplo; checklist do mario
+	private String nomePersonalizado; //exemplo; checklist do mario
 	
 	
 //	@OneToMany(mappedBy = "checklist", cascade = CascadeType.ALL, orphanRemoval =true , fetch = FetchType.EAGER)
@@ -64,7 +64,7 @@ public class Checklist implements Serializable {
 	public Checklist(ChecklistDTO checklistDTO) {
 		super();
 		
-		this.nomePersonaliado = checklistDTO.getNomePersonalizado();
+		this.nomePersonalizado = checklistDTO.getNomePersonalizado();
 		
 	}
 	public Checklist() {
