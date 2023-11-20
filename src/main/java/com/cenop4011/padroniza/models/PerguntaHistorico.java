@@ -1,8 +1,7 @@
 package com.cenop4011.padroniza.models;
 
-import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,8 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -30,17 +27,13 @@ import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import lombok.Data;
 
+
 @Entity
-@Table(name = "tb_pergunta")
 @Data
-public class Pergunta implements Serializable {
-	
-	
+@Table(name = "tb_historico_pergunta")
+public class PerguntaHistorico {
 
 	/**
 	 * 
@@ -61,7 +54,7 @@ public class Pergunta implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 	@Column(name="versao")
-	private Integer versao=1;
+	private Integer versao;
 	@Column(name = "ajuda", length = 1000)
 	private String ajuda;
 	@Column(name = "observacao", length = 1000)
@@ -79,28 +72,30 @@ public class Pergunta implements Serializable {
 	
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
+    private List<PosicaoPerguntaHistorico> posicaoPerguntas = new ArrayList<>();
 	
 	
-	public Pergunta() {
+	public PerguntaHistorico() {
 		super();
 	}
 	
 	
 	
-	public Pergunta(PerguntaDTO perguntaDTO) {
+	public PerguntaHistorico(Pergunta pergunta) {
 		super();
 	
-		this.descricao = perguntaDTO.getDescricao();
+		this.descricao = pergunta.getDescricao();
 		this.createdAt = LocalDateTime.now();
-		this.ajuda = perguntaDTO.getAjuda();
-		this.observacao = perguntaDTO.getObservacao();
-		this.tempoAlerta = perguntaDTO.getTempoAlerta();
-		this.instrucaoIn = perguntaDTO.getInstrucaoIn();
-		this.tipoResposta = perguntaDTO.getTipoResposta();
-		this.link=perguntaDTO.getLink();
-		this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
-		this.respostas= adicionarRespostas(perguntaDTO);
+		
+		this.versao = pergunta.getVersao();
+		this.ajuda = pergunta.getAjuda();
+		this.observacao = pergunta.getObservacao();
+		this.tempoAlerta = pergunta.getTempoAlerta();
+		this.instrucaoIn = pergunta.getInstrucaoIn();
+		this.tipoResposta = pergunta.getTipoResposta();
+		this.link=pergunta.getLink();
+		this.listaCodigosLinha = adicionarCodigosLinha(new PerguntaDTO(pergunta));
+		//this.respostas= adicionarRespostas(new PerguntaDTO(pergunta));
 		
 		
 	}
@@ -109,11 +104,11 @@ public class Pergunta implements Serializable {
 
 
 
-	private List<CodigoLinha> adicionarCodigosLinha(PerguntaDTO perguntaDTO) {
+	private List<CodigoLinhaHistorico> adicionarCodigosLinha(PerguntaDTO perguntaDTO) {
 		
 		this.setListaCodigosLinha(new ArrayList<>());
 		for (Integer  cod : perguntaDTO.getListaCodigosLinha()) {
-			CodigoLinha codigoLinha = new CodigoLinha();
+			CodigoLinhaHistorico codigoLinha = new CodigoLinhaHistorico();
 			codigoLinha.setCodigoLinha(cod);
 			codigoLinha.setPergunta(this);
 			
@@ -126,12 +121,12 @@ public class Pergunta implements Serializable {
 	}
 	
 	
-	private List<Resposta> adicionarRespostas(PerguntaDTO perguntaDTO) {
+	private List<RespostaHistorico> adicionarRespostas(PerguntaDTO perguntaDTO) {
 		this.setRespostas(new ArrayList<>());
 		
 		for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
 			
-			Resposta resposta = new Resposta(respostaDTO);
+			RespostaHistorico resposta = new RespostaHistorico(respostaDTO);
 			resposta.setPergunta(this);
 			
 			this.respostas.add(resposta);
@@ -153,17 +148,17 @@ public class Pergunta implements Serializable {
 	//@JsonIgnore
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL,orphanRemoval = true)
-	private List<CodigoLinha> listaCodigosLinha = new ArrayList<>();
+	private List<CodigoLinhaHistorico> listaCodigosLinha = new ArrayList<>();
 	
 	
 	//@JsonIgnore
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Resposta> respostas = new ArrayList<>();
+	private List<RespostaHistorico> respostas = new ArrayList<>();
 
 
 
-	public Pergunta atualizaAtributos(@Valid PerguntaDTO perguntaDTO) {
+	public PerguntaHistorico atualizaAtributos(@Valid PerguntaDTO perguntaDTO) {
 		
 		
 		if(perguntaDTO.getListaCodigosLinha().size()>0) {
@@ -195,7 +190,7 @@ public class Pergunta implements Serializable {
 		
 		this.setListaCodigosLinha(new ArrayList<>());/// adicionar novos removendo todos os existentes no banco, caso queira incrementar remova esta linha
 		for (Integer codigo : codigosLinha) {
-			CodigoLinha codigoLinha = new CodigoLinha();
+			CodigoLinhaHistorico codigoLinha = new CodigoLinhaHistorico();
 			codigoLinha.setCodigoLinha(codigo);
 			codigoLinha.setPergunta(this);
 			this.listaCodigosLinha.add(codigoLinha);
@@ -215,7 +210,7 @@ public class Pergunta implements Serializable {
 		
 		for (RespostaDTO respostaDTO : respostas2) {
 			
-			Resposta resposta = new Resposta(respostaDTO);
+			RespostaHistorico resposta = new RespostaHistorico(respostaDTO);
 			resposta.setPergunta(this);
 			
 			this.respostas.add(resposta);
@@ -241,5 +236,5 @@ public class Pergunta implements Serializable {
 	
 	
 	
-
+	
 }

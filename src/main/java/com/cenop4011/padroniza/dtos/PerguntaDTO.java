@@ -89,7 +89,7 @@ public class PerguntaDTO implements Serializable{
 		this.link = pergunta.getLink();
 		pergunta.getListaCodigosLinha().stream().map(CodigoLinha::getCodigoLinha) // Mapeia cada objeto para seu atributo "codigo"
 			    .forEach(listaCodigosLinha::add);
-		respostas= pergunta.getRespostas().stream().map((resp)-> new RespostaDTO(resp)).collect(Collectors.toList());
+		//respostas= pergunta.getRespostas().stream().map((resp)-> new RespostaDTO(resp)).collect(Collectors.toList());
 		
 		
 		

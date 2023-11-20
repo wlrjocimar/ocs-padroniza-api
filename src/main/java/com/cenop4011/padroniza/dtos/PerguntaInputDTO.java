@@ -2,6 +2,9 @@ package com.cenop4011.padroniza.dtos;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Data;
 
 
@@ -20,6 +23,11 @@ public class PerguntaInputDTO {
 	private String instrucaoIn;
 	private String link;
 	
+	
+	
+	private List<Integer> listaCodigosLinha = new ArrayList<>();
+	
+	private List<RespostaDTO> respostas = new ArrayList<>();
 	
 	
 }

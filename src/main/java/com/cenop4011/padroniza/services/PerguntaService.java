@@ -1,19 +1,14 @@
 package com.cenop4011.padroniza.services;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
-import com.cenop4011.padroniza.exceptions.ConstraintException;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Pergunta;
+import com.cenop4011.padroniza.models.PerguntaHistorico;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
 import com.cenop4011.padroniza.models.PosicaoPerguntaId;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
@@ -45,6 +40,9 @@ public class PerguntaService {
 	BlocoService blocoService;
 	@Autowired
 	BlocoRepository blocoRepository;
+	
+	@Autowired
+	PerguntaHistoricoService perguntaHistoricoService;
 	
 	
 	 @Autowired
@@ -296,7 +294,19 @@ public class PerguntaService {
 	public Pergunta atualizaPerguntaSomenteParcial(PerguntaInputDTO perguntaInputDTO, Integer idPergunta) {
 		
 		Pergunta pergunta = buscarPergunta(idPergunta);
-		pergunta.setUpdatedAt(new Date());
+//		
+		// antes de atualizar a pergunta garavar uma em PerguntaHistorico
+		
+		PerguntaHistorico perguntaHistorico = new PerguntaHistorico(pergunta);
+		
+		
+		
+		PerguntaHistorico perguntaHistoricoGravado =   perguntaHistoricoService.gravarPerguntaHistorico(perguntaHistorico);
+		
+		
+		pergunta.setUpdatedAt(LocalDateTime.now());
+		
+		pergunta.setVersao(pergunta.getVersao()+1);
 		
 		if (perguntaInputDTO.getDescricao() != null && !perguntaInputDTO.getDescricao().isEmpty()) {
 	        pergunta.setDescricao(perguntaInputDTO.getDescricao());
@@ -327,11 +337,26 @@ public class PerguntaService {
 	    }
 		
 	    
-		
-	      perguntaRepository.save(pergunta);
+	    if(perguntaInputDTO.getListaCodigosLinha().size()>0) {
+	    	
+	    	pergunta.adicionarCodigosLinha(perguntaInputDTO.getListaCodigosLinha());
+	    	
+	    }
+	    
+	    
+	    
+	    if(perguntaInputDTO.getRespostas().size()>0) {
+	    	pergunta.adicionarRespostas(perguntaInputDTO.getRespostas());
+	    }
+	    
 	    
 		
-		return pergunta;
+	      perguntaRepository.save(pergunta);
+	     Pergunta perguntaAtualizada = buscarPergunta(idPergunta);
+	      
+	    
+		
+		return perguntaAtualizada;
 	}
 	
 	
