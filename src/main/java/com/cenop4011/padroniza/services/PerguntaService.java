@@ -290,7 +290,7 @@ public class PerguntaService {
 	}
 
 
-
+	@Transactional("padronizaTransactionManager")
 	public Pergunta atualizaPerguntaSomenteParcial(PerguntaInputDTO perguntaInputDTO, Integer idPergunta) {
 		
 		Pergunta pergunta = buscarPergunta(idPergunta);

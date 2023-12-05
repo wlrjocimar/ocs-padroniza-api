@@ -28,10 +28,10 @@ public class ComportamentoRespostaHistorico {
 	
 
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
-	private TipoComportamentoResposta tipoComportamento;
+	private TipoComportamentoRespostaHistorico tipoComportamento;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-	private ValorComportamentoResposta valorComportamentoResposta;
+	private ValorComportamentoRespostaHistorico valorComportamentoResposta;
 	
 	
 	
@@ -43,9 +43,9 @@ public class ComportamentoRespostaHistorico {
 		
 	}
 	
-	public ComportamentoRespostaHistorico(ComportamentoRespostaDTO comportamentoRespostaDTO) {
-		this.tipoComportamento = new TipoComportamentoResposta(comportamentoRespostaDTO);
-		this.valorComportamentoResposta = new ValorComportamentoResposta(comportamentoRespostaDTO);
+	public ComportamentoRespostaHistorico(ComportamentoResposta comportamentoResposta) {
+		this.tipoComportamento = new TipoComportamentoRespostaHistorico(comportamentoResposta);
+		this.valorComportamentoResposta = new ValorComportamentoRespostaHistorico(comportamentoResposta);
 		
 		
 	}

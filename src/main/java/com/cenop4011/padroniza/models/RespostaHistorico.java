@@ -57,9 +57,9 @@ public class RespostaHistorico {
 	}
 	
 
-	public RespostaHistorico(RespostaDTO respostaDTO) {
-		this.resposta=respostaDTO.getResposta();
-		this.adicionarComportamento(respostaDTO);
+	public RespostaHistorico(Resposta resposta) {
+		this.resposta=resposta.getResposta();
+		this.adicionarComportamento(resposta);
 		
 	}
 	
@@ -68,15 +68,15 @@ public class RespostaHistorico {
 	
 
 	
-	private List<ComportamentoRespostaHistorico> adicionarComportamento(RespostaDTO respostaDTO) {
+	private List<ComportamentoRespostaHistorico> adicionarComportamento(Resposta resposta) {
 		this.setComportamentos(new ArrayList<>());
 		
-		for (ComportamentoRespostaDTO comportamentoRespostaDTO : respostaDTO.getComportamentos()) {
+		for (ComportamentoResposta comportamentoResposta : resposta.getComportamentos()) {
 			
-			ComportamentoRespostaHistorico comportamentoResposta = new ComportamentoRespostaHistorico(comportamentoRespostaDTO);
-			comportamentoResposta.setResposta(this);
+			ComportamentoRespostaHistorico comportamentoRespostaHistorico = new ComportamentoRespostaHistorico(comportamentoResposta);
+			comportamentoRespostaHistorico.setResposta(this);
 			
-			this.comportamentos.add(comportamentoResposta);
+			this.comportamentos.add(comportamentoRespostaHistorico);
 			
 		}
 		return comportamentos;

@@ -51,7 +51,7 @@ public class Pergunta implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="descricao",length = 1000)
+	@Column(name="descricao",columnDefinition = "LONGTEXT")
 	private String descricao;
 	@Column(name = "created_at")	
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -62,9 +62,9 @@ public class Pergunta implements Serializable {
     private LocalDateTime updatedAt;
 	@Column(name="versao")
 	private Integer versao=1;
-	@Column(name = "ajuda", length = 1000)
+	@Column(name = "ajuda", columnDefinition = "LONGTEXT")
 	private String ajuda;
-	@Column(name = "observacao", length = 1000)
+	@Column(name = "observacao", columnDefinition = "LONGTEXT")
 	private String observacao;
 	@Column(name="tempo_alerta")
 	private Integer tempoAlerta;
@@ -74,6 +74,10 @@ public class Pergunta implements Serializable {
 	private String link;
 	@Column(name="ativo")
 	private Boolean ativo=true;
+	@Column(name = "apelido")
+	private String apelido;
+	@Column(name="matricula_funci")
+	private String matriculaFunci;
 	
 	
 	
@@ -81,6 +85,11 @@ public class Pergunta implements Serializable {
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
 	
+	
+	@JsonIgnore
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
+    private List<PerguntaHistorico> historicos;
 	
 	public Pergunta() {
 		super();

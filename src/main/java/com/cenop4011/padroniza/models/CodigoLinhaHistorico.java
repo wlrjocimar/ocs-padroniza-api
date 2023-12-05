@@ -31,5 +31,25 @@ public class CodigoLinhaHistorico {
 	@JoinColumn(name = "pergunta_id",referencedColumnName = "id")
 	private PerguntaHistorico pergunta;
 
+	
+	
+
+	public CodigoLinhaHistorico(CodigoLinha codigoLinha,PerguntaHistorico perguntaHistorico) {
+		super();
+		this.codigoLinha = codigoLinha.getCodigoLinha();
+		this.pergunta=perguntaHistorico;
+		
+	}
+
+
+
+
+	public CodigoLinhaHistorico() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	
 
 }
