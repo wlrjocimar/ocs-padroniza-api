@@ -58,7 +58,7 @@ public class RespostaHistorico {
 	
 
 	public RespostaHistorico(Resposta resposta) {
-		this.resposta=resposta.getResposta();
+		//this.resposta=resposta.getResposta();
 		this.adicionarComportamento(resposta);
 		
 	}

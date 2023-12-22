@@ -63,8 +63,6 @@ public class PerguntaHistorico {
 	private String observacao;
 	@Column(name="tempo_alerta")
 	private Integer tempoAlerta;
-	@Column(name="ref_in")// instrução normativa de referencia
-	private String instrucaoIn; /// relacionar com uma lista de instruções que vinculam à pergunta
 	@Column(name="link")
 	private String link;
 	@Column(name="ativo")
@@ -100,7 +98,6 @@ public class PerguntaHistorico {
 		this.ajuda = pergunta.getAjuda();
 		this.observacao = pergunta.getObservacao();
 		this.tempoAlerta = pergunta.getTempoAlerta();
-		this.instrucaoIn = pergunta.getInstrucaoIn();
 		this.tipoResposta = pergunta.getTipoResposta();
 		this.link=pergunta.getLink();
 		this.listaCodigosLinha = adicionarCodigosLinha(pergunta);

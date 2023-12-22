@@ -35,9 +35,7 @@ public class PerguntaDTO implements Serializable{
 	private Integer versao;
 	private String ajuda;
 	private String observacao;
-    @NotNull(message = "Tempo alerta não pode ser nulo")
-	private Integer tempoAlerta;
-	private String instrucaoIn;
+    private Integer tempoAlerta;
 	private String link;
 	private Integer posicao;   // atributo somente de retorno para mostrar model pergunta quando dentro de um bloco qual a posição que esta pegunta assume
 	
@@ -71,6 +69,9 @@ public class PerguntaDTO implements Serializable{
 	private List<RespostaDTO> respostas = new ArrayList<>();
 	
 	
+	private List<InstrucaoNormativaDTO> instrucoesNormativas = new ArrayList<>();
+	
+	
 	
 	public PerguntaDTO(Pergunta pergunta) {
 		super();
@@ -84,7 +85,6 @@ public class PerguntaDTO implements Serializable{
 		this.ajuda = pergunta.getAjuda();
 		this.observacao = pergunta.getObservacao();
 		this.tempoAlerta = pergunta.getTempoAlerta();
-		this.instrucaoIn = pergunta.getInstrucaoIn();
 		this.tipoResposta = pergunta.getTipoResposta();
 		this.link = pergunta.getLink();
 		pergunta.getListaCodigosLinha().stream().map(CodigoLinha::getCodigoLinha) // Mapeia cada objeto para seu atributo "codigo"

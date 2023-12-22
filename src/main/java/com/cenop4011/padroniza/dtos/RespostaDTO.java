@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.cenop4011.padroniza.models.Resposta;
 
@@ -15,7 +17,8 @@ public class RespostaDTO {
 	
 	
 	
-	private String resposta;
+	
+	private Integer codigoResposta;
 	
 	
 	
@@ -30,7 +33,7 @@ public RespostaDTO() {
 
 
 	public RespostaDTO(Resposta resp) {
-		this.resposta= resp.getResposta();
+		//this.resposta= resp.getResposta();
 		comportamentos= resp.getComportamentos().stream().map((comp)-> new ComportamentoRespostaDTO(comp)).collect(Collectors.toList());
 		
 		

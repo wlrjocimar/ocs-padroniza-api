@@ -25,6 +25,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.cenop4011.padroniza.dtos.InstrucaoNormativaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
@@ -67,9 +68,7 @@ public class Pergunta implements Serializable {
 	@Column(name = "observacao", columnDefinition = "LONGTEXT")
 	private String observacao;
 	@Column(name="tempo_alerta")
-	private Integer tempoAlerta;
-	@Column(name="ref_in")// instrução normativa de referencia
-	private String instrucaoIn; /// relacionar com uma lista de instruções que vinculam à pergunta
+	private Integer tempoAlerta=0;
 	@Column(name="link")
 	private String link;
 	@Column(name="ativo")
@@ -84,6 +83,10 @@ public class Pergunta implements Serializable {
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
+	
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<InstrucaoNormativa> instrucoesNormativas = new ArrayList<>();
 	
 	
 	@JsonIgnore
@@ -105,16 +108,33 @@ public class Pergunta implements Serializable {
 		this.ajuda = perguntaDTO.getAjuda();
 		this.observacao = perguntaDTO.getObservacao();
 		this.tempoAlerta = perguntaDTO.getTempoAlerta();
-		this.instrucaoIn = perguntaDTO.getInstrucaoIn();
 		this.tipoResposta = perguntaDTO.getTipoResposta();
 		this.link=perguntaDTO.getLink();
 		this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
 		this.respostas= adicionarRespostas(perguntaDTO);
+		this.instrucoesNormativas=adicionarInstrucoes(perguntaDTO);
 		
 		
 	}
 
 	
+
+
+
+	private List<InstrucaoNormativa> adicionarInstrucoes(PerguntaDTO perguntaDTO) {
+      this.setInstrucoesNormativas(new ArrayList<>());
+		
+		for (InstrucaoNormativaDTO instrucaoNormativaDTO : perguntaDTO.getInstrucoesNormativas()) {
+			
+			
+			InstrucaoNormativa instrucaoNormativa = new InstrucaoNormativa(instrucaoNormativaDTO);
+			instrucaoNormativa.setPergunta(this);
+			
+			this.instrucoesNormativas.add(instrucaoNormativa);
+			
+		}
+		return instrucoesNormativas;
+	}
 
 
 
@@ -188,8 +208,7 @@ public class Pergunta implements Serializable {
 		this.ajuda = perguntaDTO.getAjuda();
 		this.observacao = perguntaDTO.getObservacao();
 		this.tempoAlerta = perguntaDTO.getTempoAlerta();
-		this.instrucaoIn = perguntaDTO.getInstrucaoIn();
-		this.tipoResposta = perguntaDTO.getTipoResposta();
+	    this.tipoResposta = perguntaDTO.getTipoResposta();
 		this.respostas= adicionarRespostas(perguntaDTO);
 		
 		

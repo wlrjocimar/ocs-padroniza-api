@@ -22,6 +22,7 @@ public class PerguntaInputDTO {
     private Integer tempoAlerta;
 	private String instrucaoIn;
 	private String link;
+	private Boolean ativo;
 	
 	
 	

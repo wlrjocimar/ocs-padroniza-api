@@ -37,6 +37,10 @@ public class PerguntaDTOValidator implements Validator {
         
         for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
         	
+        	if(respostaDTO.getCodigoResposta()==null  ) {
+        		throw new PersonalBadRequest("Não inormou codigo do valor da resposta");
+        	}
+        	
         	
         	for (ComportamentoRespostaDTO comportamentoRespostaDTO : respostaDTO.getComportamentos()) {
         		
@@ -63,6 +67,9 @@ public class PerguntaDTOValidator implements Validator {
         			throw new ObjectNotFoundException("Valor do comportamento não encontrado para o codigoValorComportamento : " + codigoValorComportamento);
         		}
         		
+        		
+        		
+        		
 				
 			}
 			
@@ -78,9 +85,9 @@ public class PerguntaDTOValidator implements Validator {
         
         
 
-        if(perguntaDTO.getTempoAlerta()!=null &&  perguntaDTO.getTempoAlerta()<1) {
-        	throw new PersonalBadRequest("tempoAlerta deve ser maior que 0 ");
-        }
+//        if(perguntaDTO.getTempoAlerta()!=null &&  perguntaDTO.getTempoAlerta()<1) {
+//        	throw new PersonalBadRequest("tempoAlerta deve ser maior que 0 ");
+//        }
         
         
         

@@ -328,14 +328,19 @@ public class PerguntaService {
 	        pergunta.setTempoAlerta(perguntaInputDTO.getTempoAlerta());
 	    }
 
-	    if (perguntaInputDTO.getInstrucaoIn() != null && !perguntaInputDTO.getInstrucaoIn().isEmpty()) {
-	        pergunta.setInstrucaoIn(perguntaInputDTO.getInstrucaoIn());
-	    }
+	   
 
 	    if (perguntaInputDTO.getLink() != null && !perguntaInputDTO.getLink().isEmpty()) {
 	        pergunta.setLink(perguntaInputDTO.getLink());
 	    }
 		
+	    
+	    if(perguntaInputDTO.getAtivo()!=null) {
+	    	pergunta.setAtivo(perguntaInputDTO.getAtivo());
+	    	
+	    }
+	    
+	    
 	    
 	    if(perguntaInputDTO.getListaCodigosLinha().size()>0) {
 	    	
