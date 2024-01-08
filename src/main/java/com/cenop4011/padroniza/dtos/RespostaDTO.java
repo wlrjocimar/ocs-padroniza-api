@@ -16,6 +16,7 @@ import lombok.Data;
 public class RespostaDTO {
 	
 	
+	private Integer numeroResposta;
 	
 	
 	private Integer codigoResposta;
@@ -33,7 +34,7 @@ public RespostaDTO() {
 
 
 	public RespostaDTO(Resposta resp) {
-		//this.resposta= resp.getResposta();
+		this.numeroResposta= resp.getNumeroResposta();
 		comportamentos= resp.getComportamentos().stream().map((comp)-> new ComportamentoRespostaDTO(comp)).collect(Collectors.toList());
 		
 		

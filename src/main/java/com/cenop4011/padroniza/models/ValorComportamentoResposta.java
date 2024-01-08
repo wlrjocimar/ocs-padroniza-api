@@ -11,7 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
+import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
+import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
 
 import lombok.Data;
 
@@ -20,13 +24,26 @@ import lombok.Data;
 @Data
 public class ValorComportamentoResposta {
 	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "diligencia_id", referencedColumnName = "id")
     private Diligencia diligencia;
+	
+	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "nota_tecnica_alvo_id", referencedColumnName = "id")
+    private NotaTecnicaAlvo  notaTecnica;
+	
+	
+	
+	
+	
+	
 	
 
 	
@@ -35,7 +52,17 @@ public class ValorComportamentoResposta {
 	
 	
 	public ValorComportamentoResposta(ComportamentoRespostaDTO comportamentoRespostaDTO) {
-		this.diligencia = new Diligencia(comportamentoRespostaDTO.getCodigoValorComportamento()); // aqui é o codigo que é omesmo id da dligencia
+		
+		if(comportamentoRespostaDTO.getCodigoTipoComportamento()==1) {
+			
+			this.notaTecnica =  new NotaTecnicaAlvo(comportamentoRespostaDTO.getValorComportamentoResposta().getNotaTecnica());
+		}else if(comportamentoRespostaDTO.getCodigoValorComportamento()!=null) {
+			this.diligencia = new Diligencia(comportamentoRespostaDTO.getCodigoValorComportamento()); // aqui é o codigo que é omesmo id da dligencia
+		}else {
+			this.diligencia = new Diligencia(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia());
+		}
+		
+		
 		
 	}
 

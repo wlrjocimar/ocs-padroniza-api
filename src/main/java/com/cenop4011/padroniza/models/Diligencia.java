@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.cenop4011.padroniza.dtos.DiligenciaDTO;
+
 import lombok.Data;
 
 @Entity
@@ -47,6 +49,15 @@ public class Diligencia implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+
+	public Diligencia(DiligenciaDTO diligenciaDTO) {
+		this.codigoDetalheOcorrencia=diligenciaDTO.getCodigoDetalheOcorrencia();
+		this.observacao=diligenciaDTO.getObservacao();
+		this.nomeDetalheOcorrencia=diligenciaDTO.getNomeDetalheOcorrencia();
+	}
+
+
 	
 	
 	

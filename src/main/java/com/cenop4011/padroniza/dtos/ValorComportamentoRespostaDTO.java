@@ -15,13 +15,21 @@ public class ValorComportamentoRespostaDTO {
 	private Integer id;
 	
 	
-    private DiligenciaDTO diligenciaDTO;
+    private DiligenciaDTO diligencia;
+    
+    
+    private NotaTecnicaAlvoDTO notaTecnica;
     
     
     
     public ValorComportamentoRespostaDTO(ComportamentoResposta comportamentoResposta) {
-		this.id = comportamentoResposta.getValorComportamentoResposta().getId();
-		this.diligenciaDTO = new DiligenciaDTO(comportamentoResposta.getValorComportamentoResposta().getDiligencia());
+    	this.id = comportamentoResposta.getValorComportamentoResposta().getId();
+    	
+    	if(comportamentoResposta.getTipoComportamento().getCodigoTipoComportamento()==2) {
+    		this.diligencia = new DiligenciaDTO(comportamentoResposta.getValorComportamentoResposta().getDiligencia());
+    	}
+		
+		
 	}
 
 

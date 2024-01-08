@@ -2,6 +2,8 @@ package com.cenop4011.padroniza.repositories;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -66,6 +68,28 @@ public class OcorrenciaRepository {
             return diligencia;
         });
     }
+
+
+
+	public String buscarComplementoDiligenciaNumeroDetalheOcorrencia(
+			@NotNull(message = "Informar codigodetalheOcorrencia") Integer codigoDetalheOcorrencia) {
+		String sql = "SELECT NM_DETALHE_OCR from  uso_dados.TB_DETALHE_OCR  WHERE CD_DETALHE_OCR=" + codigoDetalheOcorrencia;
+		
+		
+		try {
+			 return usoDadosJdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+		        	
+			        
+		           
+		            return rs.getString("NM_DETALHE_OCR");
+		        });
+		} catch (Exception e) {
+			System.out.println("Erro ao buscar nome ocorrencia para codigo "+ codigoDetalheOcorrencia + "  "+ e.toString());
+			return null;
+		}
+
+       
+	}
 
 	
 	

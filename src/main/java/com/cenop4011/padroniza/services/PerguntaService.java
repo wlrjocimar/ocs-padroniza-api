@@ -15,9 +15,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
+import com.cenop4011.padroniza.dtos.DiligenciaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
+import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
@@ -26,6 +29,7 @@ import com.cenop4011.padroniza.models.PerguntaHistorico;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
 import com.cenop4011.padroniza.models.PosicaoPerguntaId;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
+import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
 import com.cenop4011.padroniza.repositories.PerguntaRepository;
 
 @Service
@@ -44,6 +48,10 @@ public class PerguntaService {
 	@Autowired
 	PerguntaHistoricoService perguntaHistoricoService;
 	
+	@Autowired
+	OcorrenciaRepository ocorrenciaRepository;
+
+	
 	
 	 @Autowired
 	 @Qualifier("padronizaEntityManager")
@@ -56,6 +64,24 @@ public class PerguntaService {
 	
 		
 		
+		
+		// ao gravar uma pegunta  verificar se o  valor de comportamento é diligencia para busca o nome da ocorrencia da diligencia
+		
+		
+				
+				for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
+					
+					for (ComportamentoRespostaDTO comportamentoRespostaDTO : respostaDTO.getComportamentos()) {
+						
+						if(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia()!=null) {
+							comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia().setNomeDetalheOcorrencia(ocorrenciaRepository.buscarComplementoDiligenciaNumeroDetalheOcorrencia(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia().getCodigoDetalheOcorrencia()));
+							
+							
+						}
+						
+					}
+					
+				}
 		
 		
 		

@@ -21,6 +21,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -46,6 +47,9 @@ public class Resposta implements Serializable {
 	@Column(name="ativo")
 	private Boolean ativo=true;
 	
+	@Column(name="valor_numerico_resposta")
+	private Integer numeroResposta; // atributo somente para perguntas cujo tipo da  resposta é numerico;
+	
 	@ManyToOne
 	@JoinColumn(name = "valor_resposta_id",referencedColumnName = "id")
 	private ValorResposta valorResposta;
@@ -64,8 +68,13 @@ public class Resposta implements Serializable {
 	}
 	
 
-	public Resposta(RespostaDTO respostaDTO) {
-		this.valorResposta=new ValorResposta(respostaDTO);
+	public Resposta(RespostaDTO respostaDTO,TipoPerguntaList tipoPergunta) {
+		
+		if(tipoPergunta.equals(TipoPerguntaList.CONDICIONAL)) {
+			this.valorResposta=new ValorResposta(respostaDTO);
+		}
+		
+		this.numeroResposta=respostaDTO.getNumeroResposta();
 		this.adicionarComportamento(respostaDTO);
 		
 	}

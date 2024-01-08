@@ -11,10 +11,17 @@ public class ComportamentoRespostaDTO {
 	
 	@NotNull(message = "informe O codigo do comportamento")
 	private Integer codigoTipoComportamento;
-	@NotNull(message = "informe O codigo do valor do comportamento")
-	private Integer codigoValorComportamento;
 	
-	private ValorComportamentoRespostaDTO valorComportamentoRespostaDTO;
+	private Integer codigoValorComportamento; // somente faz sentido para comportamento do tipo diligencia
+	
+	
+	
+	
+	
+	
+	
+	
+	private ValorComportamentoRespostaDTO valorComportamentoResposta;
 	
 	
 	
@@ -25,7 +32,7 @@ public class ComportamentoRespostaDTO {
 	public ComportamentoRespostaDTO(ComportamentoResposta comportamentoResposta) {
 		super();
 		this.codigoTipoComportamento = comportamentoResposta.getTipoComportamento().getCodigoTipoComportamento();
-		this.valorComportamentoRespostaDTO = new ValorComportamentoRespostaDTO(comportamentoResposta);
+		this.valorComportamentoResposta = new ValorComportamentoRespostaDTO(comportamentoResposta);
 	}
 	
 	

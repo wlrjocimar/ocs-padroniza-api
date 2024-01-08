@@ -160,7 +160,7 @@ public class Pergunta implements Serializable {
 		
 		for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
 			
-			Resposta resposta = new Resposta(respostaDTO);
+			Resposta resposta = new Resposta(respostaDTO,this.tipoResposta);
 			resposta.setPergunta(this);
 			
 			this.respostas.add(resposta);
@@ -243,7 +243,7 @@ public class Pergunta implements Serializable {
 		
 		for (RespostaDTO respostaDTO : respostas2) {
 			
-			Resposta resposta = new Resposta(respostaDTO);
+			Resposta resposta = new Resposta(respostaDTO,this.getTipoResposta());
 			resposta.setPergunta(this);
 			
 			this.respostas.add(resposta);
