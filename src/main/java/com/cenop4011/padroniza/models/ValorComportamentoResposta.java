@@ -39,6 +39,12 @@ public class ValorComportamentoResposta {
     @JoinColumn(name = "nota_tecnica_alvo_id", referencedColumnName = "id")
     private NotaTecnicaAlvo  notaTecnica;
 	
+	@ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "agiliza_id", referencedColumnName = "id")
+    private Agiliza  agiliza;
+	
+	
+	
 	
 	
 	
@@ -56,6 +62,8 @@ public class ValorComportamentoResposta {
 		if(comportamentoRespostaDTO.getCodigoTipoComportamento()==1) {
 			
 			this.notaTecnica =  new NotaTecnicaAlvo(comportamentoRespostaDTO.getValorComportamentoResposta().getNotaTecnica());
+		}else if(comportamentoRespostaDTO.getCodigoTipoComportamento()==3) {
+			this.agiliza = new Agiliza(comportamentoRespostaDTO.getValorComportamentoResposta().getAgiliza());
 		}else if(comportamentoRespostaDTO.getCodigoValorComportamento()!=null) {
 			this.diligencia = new Diligencia(comportamentoRespostaDTO.getCodigoValorComportamento()); // aqui é o codigo que é omesmo id da dligencia
 		}else {

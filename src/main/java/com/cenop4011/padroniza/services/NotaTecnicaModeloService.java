@@ -1,5 +1,7 @@
 package com.cenop4011.padroniza.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -56,6 +58,28 @@ public class NotaTecnicaModeloService {
 	                nt.getItens().forEach(item -> item.getSubItens().size()); // Força a inicialização da lista subItens para cada item por ter um carregamento lazy que é o indicado
 	                return nt;
 	            });
+	}
+
+
+	@Transactional("padronizaTransactionManager")   
+	public List<NotaTecnicaModelo> buscarTodosModelosNotaTecnica() {
+		
+		List<NotaTecnicaModelo> notasTecnicas=  new ArrayList<>();
+		notasTecnicas = notaTecnicaModeloRepository.findAll();
+		
+		for (NotaTecnicaModelo notaTecnicaModelo : notasTecnicas) {
+			notaTecnicaModelo.getItens().size();
+			
+			for (ItemNotaTecnica itemNotaTecnica : notaTecnicaModelo.getItens()) {
+				itemNotaTecnica.getSubItens().size();
+				
+			}
+			
+		}
+		  
+		  
+		  return notasTecnicas;
+		            
 	}
 
 

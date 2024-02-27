@@ -30,7 +30,9 @@ public class ValorResposta {
 		this.id=respostaDTO.getCodigoResposta();
 	}
 	
-	
+	public ValorResposta(Resposta resposta) {
+		this.id=resposta.getValorResposta().getId();
+	}
 	
 	public ValorResposta() {
 		// TODO Auto-generated constructor stub

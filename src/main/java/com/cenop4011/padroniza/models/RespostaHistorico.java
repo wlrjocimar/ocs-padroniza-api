@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,6 +19,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -38,10 +40,19 @@ public class RespostaHistorico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="resposta")
-	private String resposta;
+	
 	@Column(name="ativo")
 	private Boolean ativo=true;
+	
+	@Column(name="valor_numerico_resposta")
+	private Integer numeroResposta; // atributo somente para perguntas cujo tipo da  resposta é numerico;
+	
+	@ManyToOne
+	@JoinColumn(name = "valor_resposta_id",referencedColumnName = "id")
+	private ValorResposta valorResposta;
+	
+	
+	
 	
 	
 	@JsonIgnore
@@ -57,8 +68,15 @@ public class RespostaHistorico {
 	}
 	
 
-	public RespostaHistorico(Resposta resposta) {
-		//this.resposta=resposta.getResposta();
+	
+	
+public RespostaHistorico(Resposta resposta,TipoPerguntaList tipoPergunta) {
+		
+		if(tipoPergunta.equals(TipoPerguntaList.CONDICIONAL)) {
+			this.valorResposta=new ValorResposta(resposta); 
+		}
+		
+		this.numeroResposta=resposta.getNumeroResposta();
 		this.adicionarComportamento(resposta);
 		
 	}

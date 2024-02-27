@@ -5,6 +5,12 @@ package com.cenop4011.padroniza.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+
+import com.cenop4011.padroniza.enuns.TipoPerguntaList;
+
 import lombok.Data;
 
 
@@ -23,8 +29,12 @@ public class PerguntaInputDTO {
 	private String instrucaoIn;
 	private String link;
 	private Boolean ativo;
+	private Boolean automatizavel;
 	
 	
+	@NotNull(message = "tipo de resposta deve ser 'NUMERICO' ou 'CONDICIONAL' ")
+	@Enumerated(EnumType.STRING)
+	private TipoPerguntaList tipoResposta;
 	
 	private List<Integer> listaCodigosLinha = new ArrayList<>();
 	

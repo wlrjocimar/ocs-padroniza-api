@@ -1,5 +1,7 @@
 package com.cenop4011.padroniza.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +55,23 @@ public class NotaTecnicaModeloController {
 		
 		NotaTecnicaModelo notaTecnicaModelo = notaTecnicaModeloService.buscarNotaTecnica(idModelo)
 		        .orElseThrow(() -> new ObjectNotFoundException("Nota Técnica não encontrada com o ID: " + idModelo));
+
+				
+		
+		
+		
+		return ResponseEntity.ok().body(notaTecnicaModelo);
+		
+	}
+		
+	
+	
+
+	@GetMapping
+	public ResponseEntity<List<NotaTecnicaModelo>> buscarModelosNotaTecnica(){
+		
+		List<NotaTecnicaModelo> notaTecnicaModelo = notaTecnicaModeloService.buscarTodosModelosNotaTecnica();
+		   
 
 				
 		

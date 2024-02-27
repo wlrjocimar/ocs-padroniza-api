@@ -38,6 +38,7 @@ public class PerguntaDTO implements Serializable{
     private Integer tempoAlerta;
 	private String link;
 	private Integer posicao;   // atributo somente de retorno para mostrar model pergunta quando dentro de um bloco qual a posição que esta pegunta assume
+	private Boolean automatizavel;
 	
 	
 	
@@ -91,7 +92,7 @@ public class PerguntaDTO implements Serializable{
 			    .forEach(listaCodigosLinha::add);
 		//respostas= pergunta.getRespostas().stream().map((resp)-> new RespostaDTO(resp)).collect(Collectors.toList());
 		
-		
+		this.automatizavel = pergunta.getAutomatizavel();
 		
 	}
 

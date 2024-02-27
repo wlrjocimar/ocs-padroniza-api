@@ -21,16 +21,20 @@ import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.models.PerguntaHistorico;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
+import com.cenop4011.padroniza.models.PosicaoPerguntaBlocoRecover;
 import com.cenop4011.padroniza.models.PosicaoPerguntaId;
+import com.cenop4011.padroniza.models.Resposta;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
 import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
 import com.cenop4011.padroniza.repositories.PerguntaRepository;
+import com.cenop4011.padroniza.repositories.RespostaRepository;
 
 @Service
 public class PerguntaService {
@@ -50,6 +54,9 @@ public class PerguntaService {
 	
 	@Autowired
 	OcorrenciaRepository ocorrenciaRepository;
+	
+	@Autowired
+	RespostaRepository respostaRepository;
 
 	
 	
@@ -120,13 +127,22 @@ public class PerguntaService {
 	}
 
 	
-	
+	@Transactional("padronizaTransactionManager")
 	public Pergunta buscarPergunta(Integer idPergunta) {
 		
-		Optional<Pergunta> pergunta = perguntaRepository.findById(idPergunta);
-		
-		
-		return pergunta.orElseThrow(() -> new ObjectNotFoundException("Pergunta com id :" + idPergunta +  " não encontrada"));
+		Optional<Pergunta> perguntaOptional = perguntaRepository.findById(idPergunta);
+
+	    Pergunta pergunta = perguntaOptional.orElseThrow(() -> new ObjectNotFoundException("Pergunta com id :" + idPergunta + " não encontrada"));
+
+	    // Força o carregamento da lista de blocos
+	    
+	    
+	    if(pergunta.getBlocos()!=null ) {
+	    	 pergunta.getBlocos().size();
+	    }
+	   
+
+	    return pergunta;
 		
 	}
 	
@@ -195,13 +211,13 @@ public class PerguntaService {
 		Pergunta pergunta = buscarPergunta(idPergunta);
 		
 	
-		if(perguntaDTO.getListaCodigosLinha().size()>0) {
-			
-			entityManager.createQuery("DELETE FROM CodigoLinha e WHERE e.pergunta = :entidade")
-            .setParameter("entidade", pergunta)
-            .executeUpdate();
-			
-		}
+//		if(perguntaDTO.getListaCodigosLinha().size()>0) {
+//			
+//			entityManager.createQuery("DELETE FROM CodigoLinha e WHERE e.pergunta = :entidade")
+//            .setParameter("entidade", pergunta)
+//            .executeUpdate();
+//			
+//		}
 		
 		
 		pergunta = pergunta.atualizaAtributos(perguntaDTO);
@@ -317,7 +333,7 @@ public class PerguntaService {
 
 
 	@Transactional("padronizaTransactionManager")
-	public Pergunta atualizaPerguntaSomenteParcial(PerguntaInputDTO perguntaInputDTO, Integer idPergunta) {
+	public Pergunta atualizaPerguntaSomenteParcial(PerguntaInputDTO perguntaInputDTO, Integer idPergunta, List<PosicaoPerguntaBlocoRecover> blocosVinculados) {
 		
 		Pergunta pergunta = buscarPergunta(idPergunta);
 //		
@@ -336,6 +352,10 @@ public class PerguntaService {
 		
 		if (perguntaInputDTO.getDescricao() != null && !perguntaInputDTO.getDescricao().isEmpty()) {
 	        pergunta.setDescricao(perguntaInputDTO.getDescricao());
+	    }
+		
+		if (perguntaInputDTO.getAutomatizavel() != null ) {
+	        pergunta.setAutomatizavel(perguntaInputDTO.getAutomatizavel());
 	    }
 
 	    if (perguntaInputDTO.getVersao() != null) {
@@ -366,29 +386,99 @@ public class PerguntaService {
 	    	
 	    }
 	    
-	    
-	    
-	    if(perguntaInputDTO.getListaCodigosLinha().size()>0) {
-	    	
-	    	pergunta.adicionarCodigosLinha(perguntaInputDTO.getListaCodigosLinha());
-	    	
+	    if (perguntaInputDTO.getTipoResposta() != null) {
+	        pergunta.setTipoResposta(perguntaInputDTO.getTipoResposta());
 	    }
 	    
+	    
+	    pergunta.getRespostas().size();
+	  
+	    for (Resposta resposta : pergunta.getRespostas()) {
+	    	respostaRepository.delete(resposta);
+			
+		}
+	    
+	    pergunta.getRespostas().clear();
+	    
+	   
+	    
+	    
+	   
+	    Pergunta pergunta2 = buscarPergunta(idPergunta);
+	    
+	    
+	    
+//	    if(perguntaInputDTO.getListaCodigosLinha().size()>0) {
+//	    	
+//	    	pergunta.adicionarCodigosLinha(perguntaInputDTO.getListaCodigosLinha());
+//	    	
+//	    }
+	    
+	    
+	    
+	    
+	    
+	   
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	
+		
+	    
+	    // desvincular pergunta de todos os blocos
+	    
+	    for (PosicaoPerguntaBlocoRecover posicaoPerguntaBlocoRecover : blocosVinculados) {
+	    	 removerPergunta(idPergunta,posicaoPerguntaBlocoRecover.getNumeroBloco());
+		}
+	    
+	   
 	    
 	    
 	    if(perguntaInputDTO.getRespostas().size()>0) {
-	    	pergunta.adicionarRespostas(perguntaInputDTO.getRespostas());
+	    	pergunta2.adicionarRespostas(perguntaInputDTO.getRespostas());
 	    }
 	    
 	    
-		
-	      perguntaRepository.save(pergunta);
-	     Pergunta perguntaAtualizada = buscarPergunta(idPergunta);
+	  Pergunta  perguntaAtualizadaFinal = perguntaRepository.save(pergunta2);
+   
+
+	   
+	  
+	  perguntaAtualizadaFinal = perguntaRepository.save(pergunta2);
 	      
-	    
+	    perguntaAtualizadaFinal = buscarPergunta(idPergunta);
 		
-		return perguntaAtualizada;
+	    return perguntaAtualizadaFinal;
+		   
 	}
+
+
+
+	public List<Pergunta> buscarPerguntasAutomatizaveis() {
+		
+		
+		return perguntaRepository.findByAutomatizavel(true);
+		
+		
+	}
+
+
+	@Transactional("padronizaTransactionManager")
+	public Pergunta vincularTodosBlocos(List<PosicaoPerguntaBlocoRecover> blocosVinculados, Integer idPergunta) {
+
+		 Pergunta pergunta2 = buscarPergunta(idPergunta);
+	    for (PosicaoPerguntaBlocoRecover posicaoPerguntaBlocoRecover : blocosVinculados) {
+	    	 vincularBloco(idPergunta, posicaoPerguntaBlocoRecover.getNumeroBloco(), posicaoPerguntaBlocoRecover.getPosicaoAssumida());
+		}
+	    
+	    return pergunta2;
+	}
+
+
+
 	
 	
 

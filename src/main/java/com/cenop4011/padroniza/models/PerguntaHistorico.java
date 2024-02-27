@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -67,6 +68,12 @@ public class PerguntaHistorico {
 	private String link;
 	@Column(name="ativo")
 	private Boolean ativo=true;
+	@Column(name = "apelido")
+	private String apelido;
+	@Column(name="matricula_funci")
+	private String matriculaFunci;
+	@Column(name = "automatizavel")
+	private Boolean automatizavel=false;
 	
 	 @JsonIgnore
 	 @ManyToOne
@@ -101,7 +108,11 @@ public class PerguntaHistorico {
 		this.tipoResposta = pergunta.getTipoResposta();
 		this.link=pergunta.getLink();
 		this.listaCodigosLinha = adicionarCodigosLinha(pergunta);
-		this.respostas= adicionarRespostas(pergunta);
+		// Verificar se há respostas antes de chamar adicionarRespostas
+	    if (pergunta.getRespostas() != null && pergunta.getRespostas().size() > 0) {
+	        this.respostas = adicionarRespostas(pergunta);
+	    }
+
 		this.pergunta=pergunta;
 		
 		
@@ -130,10 +141,11 @@ public class PerguntaHistorico {
 	
 	private List<RespostaHistorico> adicionarRespostas(Pergunta pergunta) {
 		this.setRespostas(new ArrayList<>());
+
 		
 		for (Resposta resposta : pergunta.getRespostas()) {
 			
-			RespostaHistorico respostaHistorico = new RespostaHistorico(resposta);
+			RespostaHistorico respostaHistorico = new RespostaHistorico(resposta,pergunta.getTipoResposta());
 			respostaHistorico.setPergunta(this);
 			
 			this.respostas.add(respostaHistorico);
@@ -149,7 +161,7 @@ public class PerguntaHistorico {
 	private TipoPerguntaList tipoResposta;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "perguntas", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "perguntas", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Bloco> blocos = new ArrayList<>();
 	
 	//@JsonIgnore
@@ -217,7 +229,7 @@ public class PerguntaHistorico {
 		
 		for (Resposta resposta : respostas2) {
 			
-			RespostaHistorico respostaHistorico = new RespostaHistorico(resposta);
+			RespostaHistorico respostaHistorico = new RespostaHistorico(resposta,resposta.getPergunta().getTipoResposta());
 			respostaHistorico.setPergunta(this);
 			
 			this.respostas.add(respostaHistorico);

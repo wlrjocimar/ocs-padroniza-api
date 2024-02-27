@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -77,6 +78,8 @@ public class Pergunta implements Serializable {
 	private String apelido;
 	@Column(name="matricula_funci")
 	private String matriculaFunci;
+	@Column(name = "automatizavel")
+	private Boolean automatizavel=false;
 	
 	
 	
@@ -113,6 +116,7 @@ public class Pergunta implements Serializable {
 		this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
 		this.respostas= adicionarRespostas(perguntaDTO);
 		this.instrucoesNormativas=adicionarInstrucoes(perguntaDTO);
+		this.automatizavel = perguntaDTO.getAutomatizavel();
 		
 		
 	}
@@ -187,7 +191,7 @@ public class Pergunta implements Serializable {
 	
 	//@JsonIgnore
 	@LazyCollection(value = LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
 	private List<Resposta> respostas = new ArrayList<>();
 
 
@@ -195,10 +199,10 @@ public class Pergunta implements Serializable {
 	public Pergunta atualizaAtributos(@Valid PerguntaDTO perguntaDTO) {
 		
 		
-		if(perguntaDTO.getListaCodigosLinha().size()>0) {
-			this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
-			setListaCodigosLinha(listaCodigosLinha);
-		}
+//		if(perguntaDTO.getListaCodigosLinha().size()>0) {
+//			this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
+//			setListaCodigosLinha(listaCodigosLinha);
+//		}
 		
 
 		this.descricao = perguntaDTO.getDescricao();

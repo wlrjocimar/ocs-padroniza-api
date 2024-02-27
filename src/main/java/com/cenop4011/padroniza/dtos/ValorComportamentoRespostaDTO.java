@@ -1,5 +1,6 @@
 package com.cenop4011.padroniza.dtos;
 
+import com.cenop4011.padroniza.models.Agiliza;
 import com.cenop4011.padroniza.models.ComportamentoResposta;
 
 import lombok.Data;
@@ -19,6 +20,10 @@ public class ValorComportamentoRespostaDTO {
     
     
     private NotaTecnicaAlvoDTO notaTecnica;
+    
+    
+    
+    private AgilizaDTO agiliza;
     
     
     

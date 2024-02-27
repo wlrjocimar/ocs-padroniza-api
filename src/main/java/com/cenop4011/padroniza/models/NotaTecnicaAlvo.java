@@ -28,6 +28,8 @@ public class NotaTecnicaAlvo {
 	private String subItem;
 	@Column(name="texto")
 	private String texto;
+	@Column(name = "deletable")
+	private Boolean deletable;
 	
 	
 	
@@ -40,8 +42,16 @@ public class NotaTecnicaAlvo {
 		this.item = notaTecnica.getItem();
 		this.subItem=notaTecnica.getSubItem();
 		this.texto = notaTecnica.getTexto();
+		this.deletable=notaTecnica.getDeletable();
 	}
 	
+	
+	public NotaTecnicaAlvo(NotaTecnicaAlvo notaTecnica) {  // para gravação de historico
+		this.item = notaTecnica.getItem();
+		this.subItem=notaTecnica.getSubItem();
+		this.texto = notaTecnica.getTexto();
+		this.deletable=notaTecnica.getDeletable();
+	}
 	
 
 }

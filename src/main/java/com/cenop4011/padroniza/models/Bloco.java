@@ -98,7 +98,7 @@ public class Bloco implements Serializable{
 	
 	
 	//@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
     @JoinTable(
         name = "tb_bloco_pergunta",
         joinColumns = @JoinColumn(name = "bloco_id", referencedColumnName = "id"),

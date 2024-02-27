@@ -30,7 +30,7 @@ public class ItemNotaTecnica {
 	@Column(name = "codigo_item")
 	private Integer codigoItem;
 	
-	@Column(name = "descricao_item")
+	@Column(name = "descricao_item",columnDefinition = "LONGTEXT")
 	private String descricaoItem;
 
 	@JsonIgnore

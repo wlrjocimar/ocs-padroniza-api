@@ -13,5 +13,7 @@ public class NotaTecnicaAlvoDTO {
 	private String subItem;
 	
 	private String texto;
+	
+	private Boolean deletable;
 
 }
