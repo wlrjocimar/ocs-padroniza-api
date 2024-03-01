@@ -61,7 +61,7 @@ public class Resposta implements Serializable {
 	private Pergunta pergunta;
 	
 	@LazyCollection(value = LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "resposta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "resposta", cascade = CascadeType.ALL)
 	private List<ComportamentoResposta> comportamentos = new ArrayList<>();
 	
 	public Resposta() {

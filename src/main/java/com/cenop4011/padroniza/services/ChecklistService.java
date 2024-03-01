@@ -1,5 +1,6 @@
 package com.cenop4011.padroniza.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,7 +12,11 @@ import com.cenop4011.padroniza.dtos.ChecklistDTO;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.Checklist;
+import com.cenop4011.padroniza.models.ComportamentoResposta;
 import com.cenop4011.padroniza.models.Linha;
+import com.cenop4011.padroniza.models.Pergunta;
+import com.cenop4011.padroniza.models.Resposta;
+import com.cenop4011.padroniza.models.ValorComportamentoResposta;
 import com.cenop4011.padroniza.repositories.ChecklistRepository;
 
 
@@ -83,9 +88,25 @@ public class ChecklistService {
 		 for (Bloco bloco :  checklist.getBlocos()) {
 			bloco.getPerguntas().size();
 			
+			for (Pergunta perguntaParaAnalise : bloco.getPerguntas()) {
+				
+					for (Resposta respostaParaAnalise : perguntaParaAnalise.getRespostas()) {
+						
+						List<ComportamentoResposta> comportamentosFiltrados = new ArrayList<>();
+						for (ComportamentoResposta comportamento : respostaParaAnalise.getComportamentos()) {
+						    if (comportamento.getValorComportamentoResposta().getAgiliza().getChecklistId() == checklist.getId()) {
+						        comportamentosFiltrados.add(comportamento);
+						    }
+						}
+						respostaParaAnalise.setComportamentos(comportamentosFiltrados);
+						
+					}
+				
+			}
+			
 		}
 		 
-		    return checklist;
+    return checklist;
 		
 		
 		
