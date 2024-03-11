@@ -21,6 +21,7 @@ import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.cenop4011.padroniza.dtos.ValorComportamentoRespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
@@ -435,6 +436,19 @@ public class PerguntaService {
 		}
 	    
 	   
+	    
+	    for (RespostaDTO respostaDTO : perguntaInputDTO.getRespostas()) {
+	    	
+	    		for (ComportamentoRespostaDTO comportamentoRespostaDTO : respostaDTO.getComportamentos()) {
+					
+	    				if(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia()!=null) {
+	    					comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia().setNomeDetalheOcorrencia(ocorrenciaRepository.buscarComplementoDiligenciaNumeroDetalheOcorrencia(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia().getCodigoDetalheOcorrencia()));
+	    				}	
+				}
+			
+		}
+	    
+	    
 	    
 	    
 	    if(perguntaInputDTO.getRespostas().size()>0) {

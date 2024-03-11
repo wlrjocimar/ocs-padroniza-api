@@ -90,17 +90,29 @@ public class ChecklistService {
 			
 			for (Pergunta perguntaParaAnalise : bloco.getPerguntas()) {
 				
+				
 					for (Resposta respostaParaAnalise : perguntaParaAnalise.getRespostas()) {
-						
-						List<ComportamentoResposta> comportamentosFiltrados = new ArrayList<>();
-						for (ComportamentoResposta comportamento : respostaParaAnalise.getComportamentos()) {
-						    if (comportamento.getValorComportamentoResposta().getAgiliza().getChecklistId() == checklist.getId()) {
-						        comportamentosFiltrados.add(comportamento);
-						    }
-						}
-						respostaParaAnalise.setComportamentos(comportamentosFiltrados);
+											
+											List<ComportamentoResposta> comportamentosFiltrados = new ArrayList<>();
+											
+										
+											for (ComportamentoResposta comportamento : respostaParaAnalise.getComportamentos()) { 
+											    if (comportamento.getValorComportamentoResposta().getAgiliza()!=null &&  comportamento.getValorComportamentoResposta().getAgiliza().getChecklistId() == checklist.getId()) {
+											        comportamentosFiltrados.add(comportamento);
+											        
+											        
+											    }else if(comportamento.getValorComportamentoResposta().getAgiliza()==null &&  (comportamento.getValorComportamentoResposta().getNotaTecnica()!=null || comportamento.getValorComportamentoResposta().getDiligencia()!=null ) ) {
+											    	comportamentosFiltrados.add(comportamento);
+											    }
+											   
+											}
+											
+											respostaParaAnalise.setComportamentos(comportamentosFiltrados);
+						        
 						
 					}
+				
+					
 				
 			}
 			
