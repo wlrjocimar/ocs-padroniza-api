@@ -479,6 +479,15 @@ public class PerguntaService {
 		
 	}
 
+	
+	
+public List<Pergunta> buscarPerguntasAutomatizaveisPorChecklist(Integer idChecklist) {
+		
+		
+		return perguntaRepository.findByAutomatizavelPorChecklist(idChecklist);
+		
+		
+	}
 
 	@Transactional("padronizaTransactionManager")
 	public Pergunta vincularTodosBlocos(List<PosicaoPerguntaBlocoRecover> blocosVinculados, Integer idPergunta) {

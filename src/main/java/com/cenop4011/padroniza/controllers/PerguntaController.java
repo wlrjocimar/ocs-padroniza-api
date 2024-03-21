@@ -310,5 +310,21 @@ public class PerguntaController {
 	}
 	
 	
+	@GetMapping("/automatizaveis/{idChecklist}")
+	public ResponseEntity<List<Integer>> buscarPerguntasAutomatizaveisPorChecklist(@PathVariable Integer idChecklist){
+		
+		System.out.println("Id do checklist " + idChecklist);
+		
+		List<Pergunta> perguntasAutomatizaveis = perguntaService.buscarPerguntasAutomatizaveisPorChecklist(idChecklist);
+		
+		List<Integer> idsPerguntasAutomatizaveis = perguntasAutomatizaveis.stream()
+		        .map(Pergunta::getId) // Supondo que seu objeto Pergunta tenha um método getId()
+		        .collect(Collectors.toList());
+		
+		
+		
+		return ResponseEntity.ok().body(idsPerguntasAutomatizaveis);
+	}
+	
 
 }
