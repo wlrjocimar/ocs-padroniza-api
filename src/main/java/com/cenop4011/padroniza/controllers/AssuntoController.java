@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @RequestMapping("assuntos")
-@CrossOrigin("*")
+@CrossOrigin(allowCredentials = "true",originPatterns = "*")
 @Api(tags = "Assuntos",description = " ")
 public class AssuntoController {
 	

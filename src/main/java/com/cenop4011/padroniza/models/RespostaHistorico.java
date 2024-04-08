@@ -17,8 +17,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
-import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,11 +28,6 @@ import lombok.Data;
 public class RespostaHistorico {
 
 
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

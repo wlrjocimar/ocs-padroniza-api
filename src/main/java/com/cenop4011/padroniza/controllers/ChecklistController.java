@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.ChecklistDTO;
 import com.cenop4011.padroniza.models.Checklist;
-import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.ChecklistService;
 
 import io.swagger.annotations.Api;
@@ -28,7 +27,7 @@ import io.swagger.annotations.ApiImplicitParams;
 
 @Api(tags = "Checklists",description = " ")
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(allowCredentials = "true",originPatterns = "*")
 @RequestMapping("/checklists")
 
 public class ChecklistController {

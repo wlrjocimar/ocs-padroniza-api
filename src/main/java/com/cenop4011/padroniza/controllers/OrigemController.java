@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(allowCredentials = "true",originPatterns = "*")
 @RequestMapping("origens")
 @Api(tags = "Origens",description = " ")
 public class OrigemController {

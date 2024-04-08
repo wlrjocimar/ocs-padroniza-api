@@ -14,16 +14,7 @@ public class ComportamentoRespostaDTO {
 	
 	private Integer codigoValorComportamento; // somente faz sentido para comportamento do tipo diligencia
 	
-	
-	
-	
-	
-	
-	
-	
 	private ValorComportamentoRespostaDTO valorComportamentoResposta;
-	
-	
 	
 	public ComportamentoRespostaDTO() {
 		// TODO Auto-generated constructor stub

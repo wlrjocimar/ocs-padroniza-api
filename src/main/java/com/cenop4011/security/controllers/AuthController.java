@@ -34,13 +34,12 @@ import com.cenop4011.security.services.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 
 
 @Api(tags = "auth",description = " ")
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
+@CrossOrigin(allowCredentials = "true",originPatterns = "*")
 public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;

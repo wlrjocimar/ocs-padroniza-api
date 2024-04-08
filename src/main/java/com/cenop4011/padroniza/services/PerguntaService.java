@@ -8,7 +8,6 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,13 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
-import com.cenop4011.padroniza.dtos.DiligenciaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
-import com.cenop4011.padroniza.dtos.ValorComportamentoRespostaDTO;
-import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
@@ -152,13 +148,9 @@ public class PerguntaService {
 	public void removerPergunta(Integer idPergunta, Integer idBloco) {
 	    Pergunta pergunta = buscarPergunta(idPergunta);
 	    Bloco bloco =null;
-	    PosicaoPerguntaId posicaoPerguntaId=null;
-	    
-	    
-	    
 	    if (idBloco > 0) {
 	         bloco = blocoService.buscarBlocoPorId(idBloco);
-	         posicaoPerguntaId = new PosicaoPerguntaId(bloco, pergunta);
+	         new PosicaoPerguntaId(bloco, pergunta);
 	    }
 	    
 	   
@@ -317,7 +309,7 @@ public class PerguntaService {
 					
 					
 					
-					Pergunta pergunta = buscarPergunta(posicaoPerguntaInputDTO.getIdPergunta());
+					buscarPergunta(posicaoPerguntaInputDTO.getIdPergunta());
 					
 					//pergunta.getBlocos();
 					
@@ -344,7 +336,7 @@ public class PerguntaService {
 		
 		
 		
-		PerguntaHistorico perguntaHistoricoGravado =   perguntaHistoricoService.gravarPerguntaHistorico(perguntaHistorico);
+		perguntaHistoricoService.gravarPerguntaHistorico(perguntaHistorico);
 		
 		
 		pergunta.setUpdatedAt(LocalDateTime.now());

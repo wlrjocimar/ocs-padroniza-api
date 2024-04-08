@@ -18,7 +18,6 @@ import lombok.Data;
 @Table(name = "tb_diligencia")
 public class Diligencia implements Serializable {
 	
-	
 	/**
 	 * 
 	 */
@@ -35,21 +34,15 @@ public class Diligencia implements Serializable {
 	@Column(name="nome_detalhe_ocorrencia")
 	private String nomeDetalheOcorrencia;
 	
-	
-	
-	
-	
 	public Diligencia(Integer id) {
 		
 		this.id = id;
 	}
 
-
 	public Diligencia() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public Diligencia(DiligenciaDTO diligenciaDTO) {
 		this.codigoDetalheOcorrencia=diligenciaDTO.getCodigoDetalheOcorrencia();

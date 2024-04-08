@@ -17,7 +17,7 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("ocorrencias")
-@CrossOrigin("*")
+@CrossOrigin(allowCredentials = "true",originPatterns = "*")
 @Api(tags = "Listar Ocorrencias",description = " ")
 public class OcorrenciaController {
 

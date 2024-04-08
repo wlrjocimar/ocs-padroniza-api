@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.models.ItemNotaTecnica;
 import com.cenop4011.padroniza.models.NotaTecnicaModelo;
 import com.cenop4011.padroniza.models.SubItemNotaTecnica;

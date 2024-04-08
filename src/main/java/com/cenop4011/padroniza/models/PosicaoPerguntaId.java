@@ -5,8 +5,6 @@ import java.util.Objects;
 
 import javax.persistence.Embeddable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Data;
 
 @Embeddable

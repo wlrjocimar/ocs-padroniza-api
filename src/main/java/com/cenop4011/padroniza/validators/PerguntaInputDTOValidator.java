@@ -6,13 +6,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
-import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.PersonalBadRequest;
-import com.cenop4011.padroniza.models.Diligencia;
 import com.cenop4011.padroniza.models.ValorComportamentoResposta;
 import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
 import com.cenop4011.padroniza.services.DiligenciaService;
@@ -86,7 +84,7 @@ public class PerguntaInputDTOValidator implements Validator {
 	        		
 	        		
 	        		if(comportamentoRespostaDTO.getCodigoTipoComportamento()==2 && comportamentoRespostaDTO.getCodigoValorComportamento()!=null) {
-	        			Diligencia diligencia =  diligenciaService.buscarDiligencia(codigoValorComportamento);
+	        			diligenciaService.buscarDiligencia(codigoValorComportamento);
 	        		}
 	        		
 	        		

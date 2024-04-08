@@ -2,7 +2,12 @@ package com.cenop4011.padroniza.exceptions;
 
 public class ViolacaoIntegridadeException  extends RuntimeException{
 
-    public ViolacaoIntegridadeException(String message) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ViolacaoIntegridadeException(String message) {
         super(message);
     }
 

@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
+import com.cenop4011.padroniza.models.InstrucaoNormativa;
 
 import lombok.Data;
 
@@ -26,7 +27,8 @@ public class PerguntaInputDTO {
 	private String ajuda;
 	private String observacao;
     private Integer tempoAlerta;
-	private String instrucaoIn;
+//	private String instrucaoIn;
+	private List<InstrucaoNormativa> instrucoesNormativas;
 	private String link;
 	private Boolean ativo;
 	private Boolean automatizavel;
