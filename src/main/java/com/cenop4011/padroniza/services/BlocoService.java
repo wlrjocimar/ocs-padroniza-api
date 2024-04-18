@@ -2,6 +2,10 @@ package com.cenop4011.padroniza.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -209,9 +213,13 @@ public class BlocoService {
 	public void removerBloco(Integer idBloco, Integer idChecklist) {
 		 Bloco bloco = buscarBlocoPorId(idBloco);
 		    Checklist checklist  =null;
+		    PosicaoBlocoId posicaoBlocoId=null;
+		    
+		    
+		    
 		    if (idChecklist > 0) {
 		    	checklist = checklistService.buscarPorId(idChecklist);
-		    	new PosicaoBlocoId(checklist, bloco);
+		    	posicaoBlocoId = new PosicaoBlocoId(checklist, bloco);
 		    }
 		    
 		   
@@ -292,7 +300,7 @@ public class BlocoService {
 					
 					
 					
-					buscarBlocoPorId(posicaoBlocoInputDTO.getIdBloco());
+					Bloco bloco = buscarBlocoPorId(posicaoBlocoInputDTO.getIdBloco());
 					
 					//pergunta.getBlocos();
 					

@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.cenop4011.padroniza.dtos.DiligenciaDTO;
 import com.cenop4011.padroniza.dtos.OcorrenciaDTO;
 import com.cenop4011.padroniza.models.Diligencia;
 

@@ -3,6 +3,7 @@ package com.cenop4011.security.dtos;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

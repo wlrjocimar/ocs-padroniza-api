@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
+import com.cenop4011.padroniza.models.ItemNotaTecnica;
 import com.cenop4011.padroniza.models.NotaTecnicaModelo;
 import com.cenop4011.padroniza.services.NotaTecnicaModeloService;
 
@@ -24,7 +25,7 @@ import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @RequestMapping("notas-tecnicas-modelos")
-@CrossOrigin(allowCredentials = "true",originPatterns = "*")
+@CrossOrigin("*")
 @Api(tags = "Modelos de nota Técnica",description = " ")
 public class NotaTecnicaModeloController {
 	

@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @RequestMapping("valoresrespostas")
-@CrossOrigin(allowCredentials = "true",originPatterns = "*")
+@CrossOrigin("*")
 @Api(tags = "Gerenciar Valores das Respostas",description = " ")
 public class ValorRespostaController {
 	

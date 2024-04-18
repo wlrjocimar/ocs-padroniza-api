@@ -27,7 +27,7 @@ public class PerguntaInputDTO {
 	private String ajuda;
 	private String observacao;
     private Integer tempoAlerta;
-//	private String instrucaoIn;
+	//private String instrucaoIn;
 	private List<InstrucaoNormativa> instrucoesNormativas;
 	private String link;
 	private Boolean ativo;

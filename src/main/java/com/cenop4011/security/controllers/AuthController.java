@@ -34,12 +34,13 @@ import com.cenop4011.security.services.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 
 
 @Api(tags = "auth",description = " ")
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(allowCredentials = "true",originPatterns = "*")
+@CrossOrigin("*")
 public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final PasswordEncoder passwordEncoder;
@@ -58,7 +59,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@Valid @RequestBody LoginUser loginUser, BindingResult bidBindingResult){
         if(bidBindingResult.hasErrors())
-            return new ResponseEntity<>(new Message("revise  as credenciais"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("revise  as credenciais"), HttpStatus.BAD_REQUEST); 
         try {
                 UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(loginUser.getUserName(), loginUser.getPassword());
                 Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);

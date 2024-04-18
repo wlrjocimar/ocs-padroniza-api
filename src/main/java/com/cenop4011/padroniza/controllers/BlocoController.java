@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.BlocoDTO;
 import com.cenop4011.padroniza.dtos.PosicaoBlocoInputDTO;
+import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
+import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.services.BlocoService;
 
 import io.swagger.annotations.Api;
@@ -34,7 +38,7 @@ import io.swagger.annotations.ApiImplicitParams;
 
 @Api(tags = "Blocos",description = " ")
 @RestController
-@CrossOrigin(allowCredentials = "true",originPatterns = "*")
+@CrossOrigin("*")
 @RequestMapping("/blocos")
 public class BlocoController {
 	

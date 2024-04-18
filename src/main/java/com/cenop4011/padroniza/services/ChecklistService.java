@@ -2,6 +2,8 @@ package com.cenop4011.padroniza.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import com.cenop4011.padroniza.models.ComportamentoResposta;
 import com.cenop4011.padroniza.models.Linha;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.models.Resposta;
+import com.cenop4011.padroniza.models.ValorComportamentoResposta;
 import com.cenop4011.padroniza.repositories.ChecklistRepository;
 
 

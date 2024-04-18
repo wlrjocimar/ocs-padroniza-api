@@ -20,9 +20,6 @@ import lombok.Data;
 @Table(name="tb_instrucao_normativa")
 @Data
 public class InstrucaoNormativa implements Serializable {
-	
-	
-
 	/**
 	 * 
 	 */
@@ -40,7 +37,7 @@ public class InstrucaoNormativa implements Serializable {
 	
 	@JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "pergunta_id")
+	@JoinColumn(name = "pergunta_id",referencedColumnName = "id")
     private Pergunta pergunta;
 	
 	
@@ -55,6 +52,7 @@ public class InstrucaoNormativa implements Serializable {
 		this.item=instrucaoNormativaDTO.getItem();
 		this.subItem=instrucaoNormativaDTO.getSubItem();
 	}
+
 
 	
 }

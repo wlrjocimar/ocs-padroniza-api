@@ -8,9 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
+import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
+import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
+
 import lombok.Data;
 
 @Entity
@@ -37,6 +43,20 @@ public class ValorComportamentoResposta {
     @JoinColumn(name = "agiliza_id", referencedColumnName = "id")
     private Agiliza  agiliza;
 	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
 	public ValorComportamentoResposta(ComportamentoRespostaDTO comportamentoRespostaDTO) {
 		
 		if(comportamentoRespostaDTO.getCodigoTipoComportamento()==1) {
@@ -50,7 +70,13 @@ public class ValorComportamentoResposta {
 			this.diligencia = new Diligencia(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia());
 		}
 		
+		
+		
 	}
+
+
+
+
 
 
 	public ValorComportamentoResposta() {
@@ -58,4 +84,9 @@ public class ValorComportamentoResposta {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+	
+	
+	
+
 }

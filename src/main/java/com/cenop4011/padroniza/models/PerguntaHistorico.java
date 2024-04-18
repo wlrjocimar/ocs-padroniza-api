@@ -35,6 +35,11 @@ import lombok.Data;
 @Table(name = "tb_pergunta_historico")
 public class PerguntaHistorico {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

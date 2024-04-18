@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.cenop4011.security.enuns.RoleList;
+import lombok.Data;
 
 @Entity
 @Table(name = "tb_roles")

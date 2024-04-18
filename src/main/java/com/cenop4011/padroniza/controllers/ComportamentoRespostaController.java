@@ -1,5 +1,6 @@
 package com.cenop4011.padroniza.controllers;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,11 @@ import io.swagger.annotations.ApiImplicitParams;
 @Api(tags = "Gerenciar comportamento do valor da resposta",description = " ")
 public class ComportamentoRespostaController {
 	
+	
 	@Autowired
 	ComportamentoRespostaService comportamentoRespostaService;
+	
+	
 	
 	@PostMapping("/{idResposta}")
 	
@@ -36,10 +40,17 @@ public class ComportamentoRespostaController {
 	})
 		@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 	public ResponseEntity<?> gravarAtualizarComportamento(@PathVariable Integer idResposta, @RequestBody ComportamentoRespostaDTO comportamentoRespostaDTO , HttpServletRequest req){
+		
+		
+        
         
         ComportamentoResposta comportamentoResposta = comportamentoRespostaService.gravarValorComportamentoResposta(comportamentoRespostaDTO, idResposta);
+        
+        
+   
 
         return ResponseEntity.ok().body(comportamentoResposta);
 	}
+	
 
 }

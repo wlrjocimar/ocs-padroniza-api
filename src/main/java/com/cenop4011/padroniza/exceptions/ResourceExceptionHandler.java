@@ -14,6 +14,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
 
 
 
@@ -77,9 +79,10 @@ public class ResourceExceptionHandler {
     
 
     
-        
+    
+    
  // exceção generica sem tratamento específico
-    @ExceptionHandler(AccessDeniedException.class) 
+    @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> acessoNegado(Exception ex,ServletRequest request) {
  	   StandardError standardError = new StandardError(System.currentTimeMillis(), HttpStatus.UNAUTHORIZED.value(), "Verifique a autenticação na api");
  	   return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(standardError);

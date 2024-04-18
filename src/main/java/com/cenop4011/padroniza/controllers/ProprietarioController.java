@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
-@CrossOrigin(allowCredentials = "true",originPatterns = "*")
+@CrossOrigin("*")
 @RequestMapping("proprietarios")
 @Api(tags = "Proprietarios",description = " ")
 public class ProprietarioController {

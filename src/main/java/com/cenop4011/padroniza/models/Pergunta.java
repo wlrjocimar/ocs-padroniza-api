@@ -1,6 +1,7 @@
 package com.cenop4011.padroniza.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +25,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.cenop4011.padroniza.dtos.InstrucaoNormativaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
+import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.time.LocalDateTime;
 import lombok.Data;
 
 @Entity
@@ -82,7 +83,7 @@ public class Pergunta implements Serializable {
     private List<PosicaoPergunta> posicaoPerguntas = new ArrayList<>();
 	
 	@LazyCollection(value = LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
     private List<InstrucaoNormativa> instrucoesNormativas = new ArrayList<>();
 	
 	
@@ -134,7 +135,18 @@ public class Pergunta implements Serializable {
 		return instrucoesNormativas;
 	}
 
-
+	public void adicionarInstrucoesNormativas(List<InstrucaoNormativa> instrucoesNormativas) {
+		this.setInstrucoesNormativas(new ArrayList<>());
+		for (InstrucaoNormativa in : instrucoesNormativas) {
+			InstrucaoNormativaDTO instrucaoNormativaDTO = new InstrucaoNormativaDTO();
+			instrucaoNormativaDTO.setItem(in.getItem());
+			instrucaoNormativaDTO.setNumeroIn(in.getNumeroIn());
+			instrucaoNormativaDTO.setSubItem(in.getSubItem());
+			InstrucaoNormativa instrucaoNormativa = new InstrucaoNormativa(instrucaoNormativaDTO);
+			instrucaoNormativa.setPergunta(this);
+			this.instrucoesNormativas.add(instrucaoNormativa);
+		}
+	}
 
 	private List<CodigoLinha> adicionarCodigosLinha(PerguntaDTO perguntaDTO) {
 		
@@ -247,8 +259,6 @@ public class Pergunta implements Serializable {
 			this.respostas.add(resposta);
 			
 		}
-		
-		
 	}
 
 

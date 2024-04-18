@@ -1,6 +1,8 @@
 package com.cenop4011.padroniza.controllers;
 
+import java.lang.reflect.Array;
 import java.net.URI;
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,7 +49,7 @@ import io.swagger.annotations.ApiImplicitParams;
 @RestController
 @Api(tags = "Perguntas",description = " ")
 @RequestMapping("/perguntas")
-@CrossOrigin(allowCredentials = "true",originPatterns = "*")
+@CrossOrigin("*")
 public class PerguntaController {
 	
 	
@@ -250,33 +253,46 @@ public class PerguntaController {
 	
 	
 	@PutMapping("/{idPergunta}")
-	@ApiImplicitParams({@ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header") })
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-	public ResponseEntity<Pergunta> atualizarPerguntaParcial(@Valid @RequestBody PerguntaInputDTO perguntaInputDTO,
-			@PathVariable Integer idPergunta) {
-
+	
+	 @ApiImplicitParams({
+	        @ApiImplicitParam(name = "Authorization", value = "Informe o token com Bearer no inicio", required = true, dataType = "string", paramType = "header")
+	})
+		@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	public ResponseEntity<Pergunta> atualizarPerguntaParcial(@Valid  @RequestBody PerguntaInputDTO perguntaInputDTO, @PathVariable Integer idPergunta ){
+		
 		Pergunta pergunta2 = perguntaService.buscarPergunta(idPergunta);
-
-		List<PosicaoPerguntaBlocoRecover> blocosVinculados = new ArrayList<>();
-
-		/// tecnica alternativa para conornar problema de recursividade infinita em
-		/// reção a pergunta quanto está vinculada a blocos
-
-		if (pergunta2.getPosicaoPerguntas().size() > 0) {
-			for (PosicaoPergunta posicaoPergunta : pergunta2.getPosicaoPerguntas()) {
-				PosicaoPerguntaBlocoRecover perguntaBlocoRecover = new PosicaoPerguntaBlocoRecover();
-				perguntaBlocoRecover.setNumeroBloco(posicaoPergunta.getNumeroBloco());
-				perguntaBlocoRecover.setPosicaoAssumida(posicaoPergunta.getPosicao());
-				blocosVinculados.add(perguntaBlocoRecover);
-			}
-		}
-
-		Pergunta pergunta = perguntaService.atualizaPerguntaSomenteParcial(perguntaInputDTO, idPergunta, blocosVinculados);
-		pergunta = perguntaService.buscarPergunta(idPergunta);
-		pergunta = perguntaService.vincularTodosBlocos(blocosVinculados, idPergunta);
+		
+		 List<PosicaoPerguntaBlocoRecover> blocosVinculados = new ArrayList<>();
+		    
+		   
+	    	/// tecnica alternativa para conornar problema de recursividade infinita em reção a pergunta quanto está vinculada a blocos
+		 
+		 if(pergunta2.getPosicaoPerguntas().size()>0) {
+			 for (PosicaoPergunta posicaoPergunta : pergunta2.getPosicaoPerguntas()) {
+		    		PosicaoPerguntaBlocoRecover perguntaBlocoRecover = new PosicaoPerguntaBlocoRecover();
+		    		perguntaBlocoRecover.setNumeroBloco(posicaoPergunta.getNumeroBloco());
+		    		perguntaBlocoRecover.setPosicaoAssumida(posicaoPergunta.getPosicao());
+		    		blocosVinculados.add(perguntaBlocoRecover);
+				}
+		 }
+	    	
+		
+		
+		
+		Pergunta pergunta = perguntaService.atualizaPerguntaSomenteParcial(perguntaInputDTO,idPergunta,blocosVinculados);
+		pergunta =perguntaService.buscarPergunta(idPergunta);
+		
+	    pergunta = perguntaService.vincularTodosBlocos(blocosVinculados,idPergunta);
+		
+		
+		
 		return ResponseEntity.ok().body(pergunta);
-
+		
+		
+		
+		
 	}
+	
 	
 	@GetMapping("/automatizaveis")
 	public ResponseEntity<List<Integer>> buscarPerguntasAutomatizaveis(){
