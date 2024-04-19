@@ -59,12 +59,27 @@ public class NotaTecnicaModeloService {
 
 
 	@Transactional("padronizaTransactionManager")   
-	public Optional<NotaTecnicaModelo> buscarNotaTecnica(Integer id) {
-	    return notaTecnicaModeloRepository.findById(id)
-	            .map(nt -> {
-	                nt.getItens().forEach(item -> item.getSubItens().size()); // Força a inicialização da lista subItens para cada item por ter um carregamento lazy que é o indicado
-	                return nt;
-	            });
+	public NotaTecnicaModelo buscarNotaTecnica(Integer id) {
+	  
+		Optional<NotaTecnicaModelo> notaTecnicaModelo = notaTecnicaModeloRepository.findById(id);
+		
+		NotaTecnicaModelo notaTecnicaModelo2 = notaTecnicaModelo.orElseThrow(()->new ObjectNotFoundException("Modelo não encontrado"));
+		
+		notaTecnicaModelo2.getItens().size();
+		
+		for (ItemNotaTecnica itemNotaTecnica : notaTecnicaModelo2.getItens()) {
+			
+			itemNotaTecnica.getSubItens().size();
+			
+			for (SubItemNotaTecnica subItemNotaTecnica : itemNotaTecnica.getSubItens()) {
+				
+				subItemNotaTecnica.getChildSubItemNotaTecnicas().size();
+			}
+			
+		}
+		
+		return notaTecnicaModelo2;
+		
 	}
 
 

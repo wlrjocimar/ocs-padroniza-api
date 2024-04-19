@@ -53,8 +53,8 @@ public class NotaTecnicaModeloController {
 	@GetMapping("/{idModelo}")
 	public ResponseEntity<NotaTecnicaModelo> buscarModeloNotaTecnica(@PathVariable Integer idModelo ){
 		
-		NotaTecnicaModelo notaTecnicaModelo = notaTecnicaModeloService.buscarNotaTecnica(idModelo)
-		        .orElseThrow(() -> new ObjectNotFoundException("Nota Técnica não encontrada com o ID: " + idModelo));
+		NotaTecnicaModelo notaTecnicaModelo = notaTecnicaModeloService.buscarNotaTecnica(idModelo);
+		     
 
 				
 		
