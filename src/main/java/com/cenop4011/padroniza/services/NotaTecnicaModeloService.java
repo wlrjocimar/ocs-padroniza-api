@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
+import com.cenop4011.padroniza.models.ChildSubItemNotaTecnica;
 import com.cenop4011.padroniza.models.ItemNotaTecnica;
 import com.cenop4011.padroniza.models.NotaTecnicaModelo;
 import com.cenop4011.padroniza.models.SubItemNotaTecnica;
@@ -37,6 +38,12 @@ public class NotaTecnicaModeloService {
 			for (SubItemNotaTecnica subItemNotaTecnica : itemNotaTecnica.getSubItens()) {
 				
 				subItemNotaTecnica.setItemNotaTecnica(itemNotaTecnica);
+				
+				
+				for (ChildSubItemNotaTecnica childSubItemNotaTecnica : subItemNotaTecnica.getChildSubItemNotaTecnicas()) {
+					childSubItemNotaTecnica.setSubItemNotaTecnica(subItemNotaTecnica);
+					
+				}
 				
 			}
 			
@@ -72,6 +79,11 @@ public class NotaTecnicaModeloService {
 			
 			for (ItemNotaTecnica itemNotaTecnica : notaTecnicaModelo.getItens()) {
 				itemNotaTecnica.getSubItens().size();
+				
+				for (SubItemNotaTecnica subItemNotaTecnica : itemNotaTecnica.getSubItens()) {
+					subItemNotaTecnica.getChildSubItemNotaTecnicas().size();
+					
+				}
 				
 			}
 			

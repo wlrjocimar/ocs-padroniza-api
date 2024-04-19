@@ -12,6 +12,8 @@ public class NotaTecnicaAlvoDTO {
 	
 	private String subItem;
 	
+	private String childSubItem;
+	
 	private String texto;
 	
 	private Boolean deletable;
