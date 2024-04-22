@@ -30,6 +30,9 @@ public class NotaTecnicaAlvo {
 	private String childSubItem;
 	@Column(name="texto")
 	private String texto;
+	@Column(name="ajuda")
+	private String ajuda;
+	
 	@Column(name = "deletable")
 	private Boolean deletable;
 	

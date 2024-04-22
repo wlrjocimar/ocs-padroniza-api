@@ -75,6 +75,10 @@ public class Pergunta implements Serializable {
 	private String matriculaFunci;
 	@Column(name = "automatizavel")
 	private Boolean automatizavel=false;
+	@Column(name = "visible")
+	private Boolean visible = true;
+	@Column(name = "obs_operador", columnDefinition = "LONGTEXT")
+	private String observacaoOperador;
 	
 	
 	

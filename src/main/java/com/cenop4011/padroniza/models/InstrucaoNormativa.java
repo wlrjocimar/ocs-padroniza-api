@@ -33,6 +33,8 @@ public class InstrucaoNormativa implements Serializable {
 	private Integer item;
 	@Column(name="sub_item")
 	private String subItem;
+	@Column(name = "ajuda")
+	private String ajuda;
 
 	
 	@JsonIgnore
