@@ -16,6 +16,8 @@ public class InstrucaoNormativaDTO {
 	private Integer item;
 	
 	private String subItem;
+	
+	private String ajuda;
 
 
 }

@@ -1,5 +1,6 @@
 package com.cenop4011.padroniza.dtos;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +23,9 @@ public class DiligenciaDTO {
 	private String nomeDetalheOcorrencia;
 	
 	private Boolean ativo;
+	
+	
+	private String ajuda;
 
 	public DiligenciaDTO(Diligencia diligencia) {
 		super();
@@ -30,6 +34,7 @@ public class DiligenciaDTO {
 		this.observacao = diligencia.getObservacao();
 		this.ativo = diligencia.getAtivo();
 		this.nomeDetalheOcorrencia = diligencia.getNomeDetalheOcorrencia();
+		this.ajuda =diligencia.getAjuda();
 	}
 
 	public DiligenciaDTO() {

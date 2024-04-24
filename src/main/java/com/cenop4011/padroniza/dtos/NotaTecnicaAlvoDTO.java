@@ -16,6 +16,8 @@ public class NotaTecnicaAlvoDTO {
 	
 	private String texto;
 	
+	private String ajuda;
+	
 	private Boolean deletable;
 
 }

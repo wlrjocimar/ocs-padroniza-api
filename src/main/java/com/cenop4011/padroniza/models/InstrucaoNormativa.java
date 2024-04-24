@@ -33,7 +33,7 @@ public class InstrucaoNormativa implements Serializable {
 	private Integer item;
 	@Column(name="sub_item")
 	private String subItem;
-	@Column(name = "ajuda")
+	@Column(name = "ajuda", columnDefinition = "LONGTEXT")
 	private String ajuda;
 
 	
@@ -53,6 +53,7 @@ public class InstrucaoNormativa implements Serializable {
 		this.numeroIn=instrucaoNormativaDTO.getNumeroIn();
 		this.item=instrucaoNormativaDTO.getItem();
 		this.subItem=instrucaoNormativaDTO.getSubItem();
+		this.ajuda=instrucaoNormativaDTO.getAjuda();
 	}
 
 

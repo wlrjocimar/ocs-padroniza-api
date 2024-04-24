@@ -49,6 +49,7 @@ public class NotaTecnicaAlvo {
 		this.texto = notaTecnica.getTexto();
 		this.deletable=notaTecnica.getDeletable();
 		this.childSubItem = notaTecnica.getChildSubItem();
+		this.ajuda=notaTecnica.getAjuda();
 	}
 	
 	

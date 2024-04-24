@@ -3,7 +3,9 @@ package com.cenop4011.padroniza.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +15,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,9 +28,11 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.cenop4011.padroniza.dtos.InstrucaoNormativaDTO;
+import com.cenop4011.padroniza.dtos.LinkDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.cenop4011.padroniza.dtos.TagDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -90,11 +96,32 @@ public class Pergunta implements Serializable {
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
     private List<InstrucaoNormativa> instrucoesNormativas = new ArrayList<>();
 	
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
+	private List<Link> links = new ArrayList<>();
+	
+	
+	
+	
+	
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "tb_pergunta_tag",
+        joinColumns = @JoinColumn(name = "pergunta_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+	 private List<Tag> tags = new ArrayList<>();
+	
 	
 	@JsonIgnore
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "pergunta", cascade = CascadeType.ALL)
     private List<PerguntaHistorico> historicos;
+	
+	
+	
+	
 	
 	public Pergunta() {
 		super();
@@ -115,7 +142,10 @@ public class Pergunta implements Serializable {
 		this.listaCodigosLinha = adicionarCodigosLinha(perguntaDTO);
 		this.respostas= adicionarRespostas(perguntaDTO);
 		this.instrucoesNormativas=adicionarInstrucoes(perguntaDTO);
+		this.links=adicionarLinks(perguntaDTO);
+		//this.tags=adicionarTags(perguntaDTO);
 		this.automatizavel = perguntaDTO.getAutomatizavel();
+		this.visible=true;
 		
 		
 	}
@@ -138,6 +168,39 @@ public class Pergunta implements Serializable {
 		}
 		return instrucoesNormativas;
 	}
+	
+	
+//	private List<Tag> adicionarTags(PerguntaDTO perguntaDTO) {
+//	      this.setTags(new ArrayList<>());
+//			
+//			for (TagDTO tagDTO : perguntaDTO.getTags()) {
+//				
+//				
+//				Tag tag = new Tag(tagDTO);
+//				tag.setPergunta(this);
+//				
+//				this.tags.add(tag);
+//				
+//			}
+//			return tags;
+//		}
+//		
+	
+	
+	private List<Link> adicionarLinks(PerguntaDTO perguntaDTO) {
+	      this.setLinks(new ArrayList<>());
+			
+			for (LinkDTO linkDTO : perguntaDTO.getLinks()) {
+				
+				
+				Link link = new Link(linkDTO);
+				link.setPergunta(this);
+				
+				this.links.add(link);
+				
+			}
+			return links;
+		}
 
 	public void adicionarInstrucoesNormativas(List<InstrucaoNormativa> instrucoesNormativas) {
 		this.setInstrucoesNormativas(new ArrayList<>());

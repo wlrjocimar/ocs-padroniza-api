@@ -69,8 +69,10 @@ public class PerguntaDTO implements Serializable{
 	@NotEmpty(message = "Informe as possives respostas para gravar uma pergunta")
 	private List<RespostaDTO> respostas = new ArrayList<>();
 	
+	private List<LinkDTO> links = new ArrayList<>();
 	
 	private List<InstrucaoNormativaDTO> instrucoesNormativas = new ArrayList<>();
+	private List<TagDTO> tags = new ArrayList<>();
 	
 	
 	
