@@ -28,6 +28,10 @@ public class NotaTecnicaAlvo {
 	private String subItem;
 	@Column(name = "child_sub_item")
 	private String childSubItem;
+	
+	@Column(name = "son_child_sub_item")
+	private String sonChildSubItem;
+	
 	@Column(name="texto")
 	private String texto;
 	@Column(name="ajuda")
@@ -49,6 +53,7 @@ public class NotaTecnicaAlvo {
 		this.texto = notaTecnica.getTexto();
 		this.deletable=notaTecnica.getDeletable();
 		this.childSubItem = notaTecnica.getChildSubItem();
+		this.sonChildSubItem=notaTecnica.getSonChildSubItem();
 		this.ajuda=notaTecnica.getAjuda();
 	}
 	
@@ -59,6 +64,7 @@ public class NotaTecnicaAlvo {
 		this.texto = notaTecnica.getTexto();
 		this.deletable=notaTecnica.getDeletable();
 		this.childSubItem = notaTecnica.getChildSubItem();
+		this.sonChildSubItem=notaTecnica.getSonChildSubItem();
 	}
 	
 

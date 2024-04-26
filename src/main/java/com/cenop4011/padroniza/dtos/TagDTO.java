@@ -6,6 +6,8 @@ import lombok.Data;
 public class TagDTO {
 	
 	
-	private String nomeTag;
+	
+	private Integer codigoTag;
+	
 
 }

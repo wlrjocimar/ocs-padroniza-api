@@ -14,6 +14,8 @@ public class NotaTecnicaAlvoDTO {
 	
 	private String childSubItem;
 	
+	private String sonChildSubItem;
+	
 	private String texto;
 	
 	private String ajuda;

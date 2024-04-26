@@ -12,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +36,7 @@ import com.cenop4011.padroniza.dtos.RespostaDTO;
 import com.cenop4011.padroniza.dtos.TagDTO;
 import com.cenop4011.padroniza.enuns.TipoPerguntaList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import lombok.Data;
 
@@ -105,7 +107,7 @@ public class Pergunta implements Serializable {
 	
 	
 	@LazyCollection(value = LazyCollectionOption.FALSE)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
     @JoinTable(
         name = "tb_pergunta_tag",
         joinColumns = @JoinColumn(name = "pergunta_id"),
@@ -143,8 +145,9 @@ public class Pergunta implements Serializable {
 		this.respostas= adicionarRespostas(perguntaDTO);
 		this.instrucoesNormativas=adicionarInstrucoes(perguntaDTO);
 		this.links=adicionarLinks(perguntaDTO);
-		//this.tags=adicionarTags(perguntaDTO);
+		this.tags=adicionarTags(perguntaDTO);
 		this.automatizavel = perguntaDTO.getAutomatizavel();
+		this.setTags(tags);
 		this.visible=true;
 		
 		
@@ -170,20 +173,23 @@ public class Pergunta implements Serializable {
 	}
 	
 	
-//	private List<Tag> adicionarTags(PerguntaDTO perguntaDTO) {
-//	      this.setTags(new ArrayList<>());
-//			
-//			for (TagDTO tagDTO : perguntaDTO.getTags()) {
-//				
-//				
-//				Tag tag = new Tag(tagDTO);
-//				tag.setPergunta(this);
-//				
-//				this.tags.add(tag);
-//				
-//			}
-//			return tags;
-//		}
+	private List<Tag> adicionarTags(PerguntaDTO perguntaDTO) {
+	      this.setTags(new ArrayList<>());
+			
+			for (TagDTO tagDTO : perguntaDTO.getTags()) {
+				
+				
+				Tag tag = new Tag(tagDTO);
+				
+				
+				
+				
+				this.tags.add(tag);
+				
+			}
+			
+			return tags;
+		}
 //		
 	
 	
