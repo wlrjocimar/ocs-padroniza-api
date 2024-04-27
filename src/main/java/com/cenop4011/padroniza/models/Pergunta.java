@@ -58,6 +58,10 @@ public class Pergunta implements Serializable {
 	
 	@Column(name="descricao",columnDefinition = "LONGTEXT")
 	private String descricao;
+	
+	@Column(name="descricao_sem_formato",columnDefinition = "LONGTEXT")
+	private String descricaoSemFormato;
+	
 	@Column(name = "created_at")	
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -135,8 +139,10 @@ public class Pergunta implements Serializable {
 		super();
 	
 		this.descricao = perguntaDTO.getDescricao();
+		this.descricaoSemFormato= perguntaDTO.getDescricaoSemFormato();
 		this.createdAt = LocalDateTime.now();
 		this.ajuda = perguntaDTO.getAjuda();
+		this.matriculaFunci = perguntaDTO.getMatriculaFunci();
 		this.observacao = perguntaDTO.getObservacao();
 		this.tempoAlerta = perguntaDTO.getTempoAlerta();
 		this.tipoResposta = perguntaDTO.getTipoResposta();

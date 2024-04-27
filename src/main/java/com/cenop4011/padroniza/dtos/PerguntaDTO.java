@@ -32,6 +32,7 @@ public class PerguntaDTO implements Serializable{
 	@NotNull(message = "descrição não pode ser nulo")
 	@NotBlank(message="informe a descição")
 	private String descricao;
+	private String descricaoSemFormato;
 	private Integer versao;
 	private String ajuda;
 	private String observacao;
@@ -39,6 +40,10 @@ public class PerguntaDTO implements Serializable{
 	private String link;
 	private Integer posicao;   // atributo somente de retorno para mostrar model pergunta quando dentro de um bloco qual a posição que esta pegunta assume
 	private Boolean automatizavel;
+	
+	@NotNull(message = "Matricula do funcionario nao pode ser nulo")
+	@NotBlank(message="informe a descição matricula do funcionario")
+	private String matriculaFunci; 
 	
 	
 	
@@ -95,6 +100,7 @@ public class PerguntaDTO implements Serializable{
 		//respostas= pergunta.getRespostas().stream().map((resp)-> new RespostaDTO(resp)).collect(Collectors.toList());
 		
 		this.automatizavel = pergunta.getAutomatizavel();
+		this.matriculaFunci = pergunta.getMatriculaFunci();
 		
 	}
 

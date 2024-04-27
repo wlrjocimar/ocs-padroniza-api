@@ -19,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.cenop4011.padroniza.dtos.ChecklistDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -56,6 +59,17 @@ public class Checklist implements Serializable {
 	private List<Bloco> blocos = new ArrayList<Bloco>();
 	
 	
+	
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@ManyToMany
+    @JoinTable(
+        name = "tb_checklist_tag",
+        joinColumns = @JoinColumn(name = "checklist_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+	 private List<Tag> tags = new ArrayList<>();
+	
+	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name ="linha_id", referencedColumnName = "id" )
@@ -65,6 +79,7 @@ public class Checklist implements Serializable {
 		super();
 		
 		this.nomePersonalizado = checklistDTO.getNomePersonalizado();
+		
 		
 	}
 	public Checklist() {

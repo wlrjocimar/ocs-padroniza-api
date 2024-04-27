@@ -14,6 +14,7 @@ import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.models.ChildSubItemNotaTecnica;
 import com.cenop4011.padroniza.models.ItemNotaTecnica;
 import com.cenop4011.padroniza.models.NotaTecnicaModelo;
+import com.cenop4011.padroniza.models.SonChildSubItemNotaTecnica;
 import com.cenop4011.padroniza.models.SubItemNotaTecnica;
 import com.cenop4011.padroniza.repositories.NotaTecnicaModeloRepository;
 
@@ -42,6 +43,11 @@ public class NotaTecnicaModeloService {
 				
 				for (ChildSubItemNotaTecnica childSubItemNotaTecnica : subItemNotaTecnica.getChildSubItemNotaTecnicas()) {
 					childSubItemNotaTecnica.setSubItemNotaTecnica(subItemNotaTecnica);
+					
+					for (SonChildSubItemNotaTecnica sonChildSubItemNotaTecnica : childSubItemNotaTecnica.getSonChildSubItemNotaTecnicas()) {
+						sonChildSubItemNotaTecnica.setChildSubItemNotaTecnica(childSubItemNotaTecnica);
+						
+					}
 					
 				}
 				
@@ -74,6 +80,11 @@ public class NotaTecnicaModeloService {
 			for (SubItemNotaTecnica subItemNotaTecnica : itemNotaTecnica.getSubItens()) {
 				
 				subItemNotaTecnica.getChildSubItemNotaTecnicas().size();
+				
+				for (ChildSubItemNotaTecnica childSubItemNotaTecnica : subItemNotaTecnica.getChildSubItemNotaTecnicas()) {
+					childSubItemNotaTecnica.getSonChildSubItemNotaTecnicas().size();
+					
+				}
 			}
 			
 		}
@@ -97,6 +108,11 @@ public class NotaTecnicaModeloService {
 				
 				for (SubItemNotaTecnica subItemNotaTecnica : itemNotaTecnica.getSubItens()) {
 					subItemNotaTecnica.getChildSubItemNotaTecnicas().size();
+					
+					for (ChildSubItemNotaTecnica childSubItemNotaTecnica : subItemNotaTecnica.getChildSubItemNotaTecnicas()) {
+						childSubItemNotaTecnica.getSonChildSubItemNotaTecnicas().size();
+						
+					}
 					
 				}
 				

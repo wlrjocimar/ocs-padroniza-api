@@ -22,5 +22,7 @@ public class LinkDTO {
 	private String url;
 	
 	private Boolean isFile;
+	
+	private String ajuda;
 
 }

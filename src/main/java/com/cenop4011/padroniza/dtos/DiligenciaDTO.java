@@ -24,6 +24,7 @@ public class DiligenciaDTO {
 	
 	private Boolean ativo;
 	
+	private String marcacao;
 	
 	private String ajuda;
 
@@ -35,7 +36,8 @@ public class DiligenciaDTO {
 		this.ativo = diligencia.getAtivo();
 		this.nomeDetalheOcorrencia = diligencia.getNomeDetalheOcorrencia();
 		this.ajuda =diligencia.getAjuda();
-	}
+		this.marcacao=diligencia.getMarcacao();
+	}	
 
 	public DiligenciaDTO() {
 		// TODO Auto-generated constructor stub

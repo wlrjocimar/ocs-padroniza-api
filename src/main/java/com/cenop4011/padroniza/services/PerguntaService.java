@@ -16,22 +16,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
+import com.cenop4011.padroniza.dtos.LinkDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.RespostaDTO;
+import com.cenop4011.padroniza.dtos.TagDTO;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
 import com.cenop4011.padroniza.models.InstrucaoNormativa;
+import com.cenop4011.padroniza.models.Link;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.models.PerguntaHistorico;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
 import com.cenop4011.padroniza.models.PosicaoPerguntaBlocoRecover;
 import com.cenop4011.padroniza.models.PosicaoPerguntaId;
 import com.cenop4011.padroniza.models.Resposta;
+import com.cenop4011.padroniza.models.Tag;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
 import com.cenop4011.padroniza.repositories.InstrucaoNormativaRepository;
+import com.cenop4011.padroniza.repositories.LinkRepository;
 import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
 import com.cenop4011.padroniza.repositories.PerguntaRepository;
 import com.cenop4011.padroniza.repositories.RespostaRepository;
@@ -58,6 +63,9 @@ public class PerguntaService {
 
 	@Autowired
 	InstrucaoNormativaRepository instrucaoNormativaRepository;
+	
+	@Autowired
+	LinkRepository linkRepository;
 
 	@Autowired
 	@Qualifier("padronizaEntityManager")
@@ -322,9 +330,40 @@ public class PerguntaService {
 		for (InstrucaoNormativa in : pergunta.getInstrucoesNormativas()) {
 			instrucaoNormativaRepository.delete(in);
 		}
-
+		
+		
+		for (Link link : pergunta.getLinks()) {
+			
+			linkRepository.delete(link);
+		}
+		
+		pergunta.getLinks().clear();
 		pergunta.getRespostas().clear();
 		pergunta.getInstrucoesNormativas().clear();
+		pergunta.getTags().clear();
+		
+		
+		List<Tag> tags = new ArrayList<>();
+		for (TagDTO tagDTO : perguntaInputDTO.getTags()) {
+			
+			Tag tag = new Tag(tagDTO);
+		    tags.add(tag);
+			
+		}
+		
+		pergunta.setTags(tags);
+		
+		
+		List<Link> novosLinks = new ArrayList<>();
+		for (LinkDTO linkDTO : perguntaInputDTO.getLinks()) {
+			
+			Link link = new Link(linkDTO);
+			link.setPergunta(pergunta);
+			novosLinks.add(link);
+		}
+		
+		pergunta.setLinks(novosLinks);
+		
 
 		Pergunta pergunta2 = buscarPergunta(idPergunta);
 

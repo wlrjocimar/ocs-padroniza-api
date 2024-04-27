@@ -36,6 +36,8 @@ public class Diligencia implements Serializable {
 	private String nomeDetalheOcorrencia;
 	@Column(name = "ajuda", columnDefinition = "LONGTEXT")
 	private String ajuda;
+	@Column(name = "marcacao")
+	private String marcacao;
 	
 	
 	
@@ -58,6 +60,7 @@ public class Diligencia implements Serializable {
 		this.observacao=diligenciaDTO.getObservacao();
 		this.nomeDetalheOcorrencia=diligenciaDTO.getNomeDetalheOcorrencia();
 		this.ajuda=diligenciaDTO.getAjuda();
+		this.marcacao = diligenciaDTO.getMarcacao();
 	}
 
 

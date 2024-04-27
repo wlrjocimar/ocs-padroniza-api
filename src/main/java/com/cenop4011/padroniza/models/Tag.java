@@ -42,7 +42,10 @@ public class Tag {
 	@JoinColumn(name = "grupotag_id",referencedColumnName = "id")
 	private GrupoTag grupoTag;
 	
-
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "tags")
+    private List<Checklist> checklists = new ArrayList<>();
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "tags")

@@ -39,8 +39,9 @@ public class PerguntaInputDTO {
 	private TipoPerguntaList tipoResposta;
 	
 	private List<Integer> listaCodigosLinha = new ArrayList<>();
-	
+	private List<LinkDTO> links = new ArrayList<>();
 	private List<RespostaDTO> respostas = new ArrayList<>();
+	private List<TagDTO> tags = new ArrayList<>();
 	
 	
 }

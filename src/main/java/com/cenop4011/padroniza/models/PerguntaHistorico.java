@@ -57,6 +57,8 @@ public class PerguntaHistorico {
 	@Column(name="versao")
 	private Integer versao;
 	
+	
+	
 	@Column(name = "ajuda", columnDefinition = "LONGTEXT")
 	private String ajuda;
 	
@@ -100,7 +102,7 @@ public class PerguntaHistorico {
 		this.descricao = pergunta.getDescricao();
 		this.createdAt = pergunta.getCreatedAt();
 		this.updatedAt=pergunta.getUpdatedAt();
-		
+		this.matriculaFunci = pergunta.getMatriculaFunci();
 		this.versao = pergunta.getVersao();
 		this.ajuda = pergunta.getAjuda();
 		this.observacao = pergunta.getObservacao();

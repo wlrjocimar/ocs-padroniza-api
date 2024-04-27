@@ -33,14 +33,11 @@ public class Link {
 	private String url;
 	@Column(name = "is_file")
 	private Boolean isFile;
+	@Column(name = "ajuda",columnDefinition = "LONGTEXT")
+	private String ajuda;
 	
 	
-	public Link(LinkDTO linkDTO) {
-		
-		this.nomeLink=linkDTO.getNomeLink();
-		this.url=linkDTO.getUrl();
-		this.isFile=linkDTO.getIsFile();
-	}
+	
 	
 	public Link() {
 		// TODO Auto-generated constructor stub
@@ -50,6 +47,16 @@ public class Link {
 	@ManyToOne
 	@JoinColumn(name = "pergunta_id", referencedColumnName = "id")
 	private Pergunta  pergunta; 
+	
+	
+   public Link(LinkDTO linkDTO) {
+		
+		this.nomeLink=linkDTO.getNomeLink();
+		this.url=linkDTO.getUrl();
+		this.isFile=linkDTO.getIsFile();
+		this.ajuda=linkDTO.getAjuda();
+		
+	}
 	
 
 }
