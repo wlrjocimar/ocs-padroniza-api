@@ -51,7 +51,17 @@ public class PerguntaInputDTOValidator implements Validator {
 						
 					}
 					
+					if(comportamentoRespostaDTO.getCodigoTipoComportamento()==2) { //se o comportamento é dligenci verificar se tem todos os atributos da dilig
+						
+						if(comportamentoRespostaDTO.getValorComportamentoResposta().getDiligencia().getCodigoAgrupadorOcorrencia()==null) {
+							throw new PersonalBadRequest("Para resposta padronizada  informou que tera um comportamento de diligencia, porém a diligencia agora necessita de gravar o codigo agrupador como (codigoAgrupadorOcorrencia)");
+						}
+						
+					}
+					
 				}
+	        	
+	        	
 				
 	        	
 	        	

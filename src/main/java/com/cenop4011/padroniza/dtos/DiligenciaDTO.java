@@ -20,6 +20,10 @@ public class DiligenciaDTO {
 	@NotBlank(message = "Informar observação")
 	private String observacao;
 	
+	@NotNull(message="passar agrupador codigoAgrupadorOcorrencia")
+	@NotBlank(message="passar agrupador codigoAgrupadorOcorrencia")
+	private Integer codigoAgrupadorOcorrencia;
+	
 	private String nomeDetalheOcorrencia;
 	
 	private Boolean ativo;
@@ -37,6 +41,7 @@ public class DiligenciaDTO {
 		this.nomeDetalheOcorrencia = diligencia.getNomeDetalheOcorrencia();
 		this.ajuda =diligencia.getAjuda();
 		this.marcacao=diligencia.getMarcacao();
+		this.codigoAgrupadorOcorrencia=diligencia.getCodigoAgrupadorOcorrencia();
 	}	
 
 	public DiligenciaDTO() {

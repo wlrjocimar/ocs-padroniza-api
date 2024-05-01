@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.cenop4011.padroniza.dtos.DiligenciaDTO;
 
@@ -26,6 +28,11 @@ public class Diligencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	
+	@Column(name="cd_agrup_ocr")
+	private Integer codigoAgrupadorOcorrencia;
+	
 	@Column(name="cd_detalhe_ocr")
 	private Integer codigoDetalheOcorrencia;
     @Column(name = "observacao",length = 1000)
@@ -61,6 +68,7 @@ public class Diligencia implements Serializable {
 		this.nomeDetalheOcorrencia=diligenciaDTO.getNomeDetalheOcorrencia();
 		this.ajuda=diligenciaDTO.getAjuda();
 		this.marcacao = diligenciaDTO.getMarcacao();
+		this.codigoAgrupadorOcorrencia=diligenciaDTO.getCodigoAgrupadorOcorrencia();
 	}
 
 

@@ -221,6 +221,7 @@ public class Pergunta implements Serializable {
 			instrucaoNormativaDTO.setItem(in.getItem());
 			instrucaoNormativaDTO.setNumeroIn(in.getNumeroIn());
 			instrucaoNormativaDTO.setSubItem(in.getSubItem());
+			instrucaoNormativaDTO.setAjuda(in.getAjuda());
 			InstrucaoNormativa instrucaoNormativa = new InstrucaoNormativa(instrucaoNormativaDTO);
 			instrucaoNormativa.setPergunta(this);
 			this.instrucoesNormativas.add(instrucaoNormativa);

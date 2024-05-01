@@ -28,12 +28,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
+import com.cenop4011.padroniza.dtos.TagDTO;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
@@ -325,6 +327,28 @@ public class PerguntaController {
 		
 		return ResponseEntity.ok().body(idsPerguntasAutomatizaveis);
 	}
+	
+	
+	
+	
+	
+	
+	@PostMapping("/tags")
+	public ResponseEntity<List<Pergunta>> buscarPerguntasPorTags(@RequestBody List<Integer> tags){
+		
+		List<Pergunta> perguntas = perguntaService.buscarPerguntasPorTags(tags);
+		
+		
+		
+		return ResponseEntity.ok().body(perguntas);
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 
 }

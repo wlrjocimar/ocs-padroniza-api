@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -35,11 +36,13 @@ import com.cenop4011.padroniza.models.PosicaoPerguntaId;
 import com.cenop4011.padroniza.models.Resposta;
 import com.cenop4011.padroniza.models.Tag;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
+import com.cenop4011.padroniza.repositories.GrupoTagRepository;
 import com.cenop4011.padroniza.repositories.InstrucaoNormativaRepository;
 import com.cenop4011.padroniza.repositories.LinkRepository;
 import com.cenop4011.padroniza.repositories.OcorrenciaRepository;
 import com.cenop4011.padroniza.repositories.PerguntaRepository;
 import com.cenop4011.padroniza.repositories.RespostaRepository;
+import com.cenop4011.padroniza.repositories.TagRepository;
 
 @Service
 public class PerguntaService {
@@ -66,6 +69,11 @@ public class PerguntaService {
 	
 	@Autowired
 	LinkRepository linkRepository;
+	
+	@Autowired 
+	TagRepository tagRepository;
+	
+	
 
 	@Autowired
 	@Qualifier("padronizaEntityManager")
@@ -431,6 +439,16 @@ public class PerguntaService {
 		}
 
 		return pergunta2;
+	}
+
+	public List<Pergunta> buscarPerguntasPorTags(List<Integer> tagsDTO) {
+		
+		
+
+       // Buscar as entidades Tag com base nos IDs
+		List<Tag> tags = tagRepository.findAllById(tagsDTO);
+		
+		return perguntaRepository.findByTagsIn(tags);
 	}
 
 }
