@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cenop4011.padroniza.dtos.ComportamentoRespostaDTO;
+import com.cenop4011.padroniza.dtos.InstrucaoNormativaDTO;
 import com.cenop4011.padroniza.dtos.LinkDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
@@ -74,6 +75,8 @@ public class PerguntaService {
 	TagRepository tagRepository;
 	
 	
+	@Autowired
+	TagService tagService;
 
 	@Autowired
 	@Qualifier("padronizaEntityManager")
@@ -85,6 +88,26 @@ public class PerguntaService {
 
 		// ao gravar uma pegunta verificar se o valor de comportamento é diligencia para
 		// busca o nome da ocorrencia da diligencia
+		
+		
+		// gravar tags IN antes de proseguir
+		
+		
+		for (InstrucaoNormativaDTO instrucaoNormativaDTO : perguntaDTO.getInstrucoesNormativas()) {
+			
+			Integer codigoTag = tagService.createTagBelongInGroup(instrucaoNormativaDTO);
+			
+			if(codigoTag>0) {
+				
+				TagDTO tagDTO = new TagDTO();
+				tagDTO.setCodigoTag(codigoTag);
+				perguntaDTO.getTags().add(tagDTO);
+			}
+			
+		}
+		
+		
+		
 
 		for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
 

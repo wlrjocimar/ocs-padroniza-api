@@ -32,15 +32,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.cenop4011.padroniza.dtos.InstrucaoNormativaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaDTO;
 import com.cenop4011.padroniza.dtos.PerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.PosicaoPerguntaInputDTO;
 import com.cenop4011.padroniza.dtos.TagDTO;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
+import com.cenop4011.padroniza.models.InstrucaoNormativa;
 import com.cenop4011.padroniza.models.Pergunta;
 import com.cenop4011.padroniza.models.PosicaoPergunta;
 import com.cenop4011.padroniza.models.PosicaoPerguntaBlocoRecover;
 import com.cenop4011.padroniza.services.PerguntaService;
+import com.cenop4011.padroniza.services.TagService;
 import com.cenop4011.padroniza.validators.PerguntaDTOValidator;
 import com.cenop4011.padroniza.validators.PerguntaInputDTOValidator;
 
@@ -57,6 +60,9 @@ public class PerguntaController {
 	
 	@Autowired
 	PerguntaService perguntaService;
+	
+	@Autowired
+	TagService tagService;
 	
 	    @Autowired
 	    private PerguntaDTOValidator perguntaDTOValidator;
@@ -263,6 +269,26 @@ public class PerguntaController {
 	public ResponseEntity<Pergunta> atualizarPerguntaParcial(@Valid  @RequestBody PerguntaInputDTO perguntaInputDTO, @PathVariable Integer idPergunta ){
 		
 		Pergunta pergunta2 = perguntaService.buscarPergunta(idPergunta);
+		
+		
+		// gravar tags IN antes de proseguir
+		
+		
+				for (InstrucaoNormativa instrucaoNormativa : perguntaInputDTO.getInstrucoesNormativas()) {
+					
+					InstrucaoNormativaDTO instrucaoNormativaDTO = new InstrucaoNormativaDTO(instrucaoNormativa);
+					
+					Integer codigoTag = tagService.createTagBelongInGroup(instrucaoNormativaDTO);
+					
+					if(codigoTag>0) {
+						
+						TagDTO tagDTO = new TagDTO();
+						tagDTO.setCodigoTag(codigoTag);
+						perguntaInputDTO.getTags().add(tagDTO);
+					}
+					
+				}
+		
 		
 		 List<PosicaoPerguntaBlocoRecover> blocosVinculados = new ArrayList<>();
 		    

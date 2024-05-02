@@ -6,4 +6,6 @@ import com.cenop4011.padroniza.models.GrupoTag;
 
 public interface GrupoTagRepository extends JpaRepository<GrupoTag, Integer> {
 
+	GrupoTag findBynomeGrupoTag(String string);
+
 }
