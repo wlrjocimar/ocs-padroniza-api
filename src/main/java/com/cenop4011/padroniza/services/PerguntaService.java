@@ -2,9 +2,11 @@ package com.cenop4011.padroniza.services;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -27,6 +29,7 @@ import com.cenop4011.padroniza.dtos.TagDTO;
 import com.cenop4011.padroniza.exceptions.ObjectNotFoundException;
 import com.cenop4011.padroniza.exceptions.ViolacaoIntegridadeException;
 import com.cenop4011.padroniza.models.Bloco;
+import com.cenop4011.padroniza.models.Checklist;
 import com.cenop4011.padroniza.models.InstrucaoNormativa;
 import com.cenop4011.padroniza.models.Link;
 import com.cenop4011.padroniza.models.Pergunta;
@@ -37,6 +40,7 @@ import com.cenop4011.padroniza.models.PosicaoPerguntaId;
 import com.cenop4011.padroniza.models.Resposta;
 import com.cenop4011.padroniza.models.Tag;
 import com.cenop4011.padroniza.repositories.BlocoRepository;
+import com.cenop4011.padroniza.repositories.ChecklistRepository;
 import com.cenop4011.padroniza.repositories.GrupoTagRepository;
 import com.cenop4011.padroniza.repositories.InstrucaoNormativaRepository;
 import com.cenop4011.padroniza.repositories.LinkRepository;
@@ -73,6 +77,9 @@ public class PerguntaService {
 	
 	@Autowired 
 	TagRepository tagRepository;
+	
+	@Autowired
+	ChecklistRepository checklistRepository;
 	
 	
 	@Autowired
@@ -473,5 +480,31 @@ public class PerguntaService {
 		
 		return perguntaRepository.findByTagsIn(tags);
 	}
+  
+	@Transactional("padronizaTransactionManager")
+	public List<Integer> buscarPerguntasAutomatizadasPorTags(List<Integer> tagsDTO) {
+	    // Buscar as entidades Tag com base nos IDs
+	    List<Tag> tags = tagRepository.findAllById(tagsDTO);
+	    
+	    List<Checklist> checklists = checklistRepository.findByTagsIn(tags);
+	    
+	    // Usar um conjunto para armazenar os IDs de perguntas automatizadas não repetidas
+	    Set<Integer> idsPerguntasAutomatizadas = new HashSet<>();
+	    
+	    for (Checklist checklist : checklists) {
+	        for (Bloco bloco : checklist.getBlocos()) {
+	            for (Pergunta pergunta : bloco.getPerguntas()) {
+	                if (pergunta.getAutomatizavel()) {
+	                    // Adicionar o ID da pergunta ao conjunto
+	                    idsPerguntasAutomatizadas.add(pergunta.getId());
+	                }
+	            }
+	        }
+	    }
+	    
+	    // Converter o conjunto de IDs de perguntas para uma lista antes de retornar
+	    return new ArrayList<>(idsPerguntasAutomatizadas);
+	}
+
 
 }

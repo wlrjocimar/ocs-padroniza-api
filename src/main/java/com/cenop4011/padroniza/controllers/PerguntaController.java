@@ -371,6 +371,17 @@ public class PerguntaController {
 	}
 	
 	
+	@PostMapping("/automatizadas")
+	public ResponseEntity<List<Integer>> buscarPerguntasAutomatizadasPorTags(@RequestBody List<Integer> tags){
+		
+		List<Integer> perguntas = perguntaService.buscarPerguntasAutomatizadasPorTags(tags);
+		
+		
+		
+		return ResponseEntity.ok().body(perguntas);
+		
+	}
+	
 	
 	
 	
